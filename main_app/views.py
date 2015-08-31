@@ -38,7 +38,6 @@ def save_client_app(request, client_id):
 
 
 def client_details(request, client_id):
-	import pdb; pdb.set_trace()
 	new_object = False
 	if 'save_client_app' in request.POST and request.POST['save_client_app'] == '1':
 		new_object, client_id = save_client_app(request, client_id)

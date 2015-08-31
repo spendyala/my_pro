@@ -168,7 +168,6 @@ def save_condensate_pump(request, chiller_id):
 
 def details(request, chiller_id):
 	if 'save_chiller_app' in request.POST and request.POST['save_chiller_app'] == '1':
-		import pdb; pdb.set_trace()
 		redirect_flag, chiller_obj_id = save_chiller_app(request, chiller_id)
 		if redirect_flag:
 			return redirect('/chiller_app/details/%s/' % (chiller_obj_id,))
@@ -260,7 +259,6 @@ def details(request, chiller_id):
 
 def images(request, chiller_id):
 	# Handle file upload
-	import pdb; pdb.set_trace()
 
 	chiller_object = Chiller.objects.get(id=chiller_id)
 
