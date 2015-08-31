@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>SB Admin - Bootstrap Admin Template</title>
+
+	<!-- Bootstrap Core CSS -->
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/bootstrap.min.css" %}">
+	<link rel="stylesheep" type="text/css" href="{% static "vfd_app/css/bootstrap-rtl.min.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/sb-admin.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/sb-admin-rtl.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/plugins/morris.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/plugins/font-awesome.min.cs" %}">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+
+<body>
+	<div id="wrapper">
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">Home</a>
+				<a class="navbar-brand" href="/clients">Clients</a>
+				<a class="navbar-brand" href="/vfd_app">VFD App</a>
+				<a class="navbar-brand" href="/premium_efficiency_app">Premium Efficiency App</a>
+				<a class="navbar-brand" href="/chiller_app">Chiller App</a>
+			</div>
+		</nav>
+	</div>
+	<div id="page-wrapper">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">
+						Client Details
+					</h1>
+					<div class="breadcrumb">
+							Client information is shown below.
+					</div>
+				</div>
+				{% if client_details %}
+					<form class="form-horizontal" action="/clients/details/{{client_details.id}}/" method="post" name="save_client_details">
+					<div class="container-fluid">
+						<div class="form-group form-group-sm">
+						  <label class="col-sm-4 control-label">Chiller Name</label>
+						  <div class="col-sm-4">
+							<input class="form-control" type="text" onchange="set_save_chiller_app()" name="chiller_name" value="{{chiller_details_obj.chiller_name}}">
+						  </div>
+						</div>
+						<table class="table table-striped">
+							<tr>
+								<th>Client Name</th>
+								<th>Country</th>
+								<th>Customer Site</th>
+								<th>Start Date</th>
+							</tr>
+							{% for client_name, country, customer_site, start_date in clients_list %}
+							<tr>
+								<td>{{client_name}}</td>
+								<td>{{country}}</td>
+								<td>{{customer_site}}</td>
+								<td>{{start_date}}</td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>
+				{% else %}
+					<div class="col-md-12">
+						Please add clients
+					</div>
+				{% endif%}
+			</div>
+		</div>
+	</div>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="{% static "vfd_app/js/bootstrap.min.js" %}"></script>
+	<script src="{% static "vfd_app/js/raphael.min.js" %}"></script>
+	<script src="{% static "vfd_app/js/morris.min.js" %}"></script>
+	<script src="{% static "vfd_app/js/morris-data.js" %}"></script>
+
+</body>
+
+</html>

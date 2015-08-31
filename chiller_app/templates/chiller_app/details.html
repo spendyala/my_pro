@@ -1,0 +1,688 @@
+
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Sample Mockup Chiller Details page</title>
+
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/bootstrap.min.css" %}">
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+  </head>
+
+  <body>
+	<!-- Begin page content -->
+	<div class="container">
+
+	  {% if chiller_details_obj %}
+	  <div class="panel panel-info">
+		<div class="panel-heading">
+		  <h4 class="text-danger">Customer Name:</h4><p class="text-danger">  {{ chiller_details_obj.client.client_name}}</p>
+		</div>
+		{% if new_chiller_obj %}
+			  <form class="form-horizontal" action="/chiller_app/details/add/" method="post" name="save_chiller_app">
+		{% else %}
+			  <form class="form-horizontal" action="/chiller_app/details/{{chiller_details_obj.id}}/" method="post" name="save_chiller_app">
+		{% endif %}
+		  {% csrf_token %}
+		  &nbsp;
+		  <div class="row">
+
+			  <div class="col-md-6">
+				<div class="panel panel-info">
+				  <div class="panel-heading">
+					CHILLER INFORMATION
+				  </div>
+				  <div class="panel-body">
+					<div class="form-group form-group-sm">
+					  <label class="col-sm-4 control-label">Chiller Name</label>
+					  <div class="col-sm-4">
+						<input class="form-control" type="text" onchange="set_save_chiller_app()" name="chiller_name" value="{{chiller_details_obj.chiller_name}}">
+					  </div>
+					</div>
+					<div class="form-group form-group-sm">
+					  <label class="col-sm-4 control-label">Chiller Model #</label>
+					  <div class="col-sm-4">
+						<input class="form-control" type="text" onchange="set_save_chiller_app()" name="chiller_model_number" value="{{chiller_details_obj.chiller_model_number}}">
+					  </div>
+					</div>
+					<div class="form-group form-group-sm">
+					  <label class="col-sm-4 control-label">Chiller Type</label>
+					  <select onchange="set_save_chiller_app()" name="chiller_type" class="col-sm-5">
+						{% for chiller_key, chiller_value in chiller_type %}
+							{% if chiller_key == chiller_details_obj.chiller_type %}
+								<option selected value="{{chiller_key}}">{{ chiller_value }}</option>
+							{% else %}
+								<option value="{{chiller_key}}">{{ chiller_value }}</option>
+							{% endif %}
+						{% endfor %}
+					  </select>
+					</div>
+					<div class="form-group form-group-sm">
+					  <label class="col-sm-4 control-label">Compressor Type</label>
+					  <select onchange="set_save_chiller_app()" name="compressor_type" class="col-sm-5">
+						{% for compressor_key, compressor_value in compressor_type %}
+							{% if compressor_key == chiller_details_obj.compressor_type %}
+								<option selected value="{{compressor_key}}">{{ compressor_value }}</option>
+							{% else %}
+								<option value="{{compressor_key}}">{{ compressor_value }}</option>
+							{% endif %}
+						{% endfor %}
+					  </select>
+					</div>
+					<div class="form-group form-group-sm">
+					  <label class="col-sm-4 control-label">Chiller Manufacturer</label>
+					  <div class="col-sm-2">
+						<input class="form-control" type="text" onchange="set_save_chiller_app()" name="chiller_manufacturer" value="{{chiller_details_obj.chiller_manufacturer}}">
+					  </div>
+					</div>
+					<div class="form-group form-group-sm">
+					  <label class="col-sm-4 control-label">Chiller Serial Number</label>
+					  <div class="col-sm-2">
+						<input class="form-control" type="text" onchange="set_save_chiller_app()" name="chiller_serial_number" value="{{chiller_details_obj.chiller_serial_number}}">
+					  </div>
+					</div>
+					<div class="form-group form-group-sm">
+					  <label class="col-sm-4 control-label">Nameplate Capacity</label>
+					  <div class="col-sm-2">
+						<input class="form-control" type="text" onchange="set_save_chiller_app()" name="nameplate_capacity" value="{{chiller_details_obj.nameplate_capacity}}">
+					  </div>
+					  <label class="col-sm-4">Tons</label>
+					</div>
+					<div class="form-group form-group-sm">
+					  <label class="col-sm-4 control-label">Rated KW</label>
+					  <div class="col-sm-2">
+						<input class="form-control" type="text" onchange="set_save_chiller_app()" name="rated_kw" value="{{chiller_details_obj.rated_kw}}">
+					  </div>
+					  <label class="col-sm-1">kW</label>
+					  <div class="col-sm-2 col-sm-offset-1">
+						<p class="bg-success control-label">{{chiller_details_obj.get_chiller_information_tons_kw}}</p>
+					  </div>
+					  <label class="col-sm-1">Tons/kW</label>
+					</div>
+					<div class="form-group form-group-sm">
+					  <label class="col-sm-4 control-label">Nameplate Maximum Flow</label>
+					  <div class="col-sm-2">
+						<input class="form-control" type="text" onchange="set_save_chiller_app()" name="nameplate_max_flow" value="{{chiller_details_obj.nameplate_max_flow}}">
+					  </div>
+					  <label class="col-sm-4">GPM</label>
+					</div>
+					<div class="form-group form-group-sm">
+					  <label class="col-sm-4 control-label">Input Design Water Temp</label>
+					  <div class="col-sm-2">
+						<input class="form-control" type="text" onchange="set_save_chiller_app()" name="input_design_water_temp" value="{{chiller_details_obj.input_design_water_temp}}">
+					  </div>
+					  <label class="col-sm-4">Deg F</label>
+					</div>
+					<div class="form-group form-group-sm">
+					  <label class="col-sm-4 control-label">Output Design Water Temp</label>
+					  <div class="col-sm-2">
+						<input class="form-control" type="text" onchange="set_save_chiller_app()" name="output_design_water_temp" value="{{chiller_details_obj.output_design_water_temp}}">
+					  </div>
+					  <label class="col-sm-4">Deg F</label>
+					</div>
+					<div class="form-group form-group-sm">
+					  <label class="col-sm-4 control-label">Rated Flow</label>
+					  <div class="col-sm-2">
+						<input class="form-control" type="text" onchange="set_save_chiller_app()" name="rated_flow" value="{{chiller_details_obj.rated_flow}}">
+					  </div>
+					  <label class="col-sm-1">GPM</label>
+					  <div class="col-sm-2 col-sm-offset-1">
+						<p class="bg-success control-label">{{chiller_details_obj.get_chiller_information_m3_hour}}</p>
+					  </div>
+					  <label class="col-sm-1">M3/Hour</label>
+					</div>
+					<div class="form-group form-group-sm">
+					  <label class="col-sm-4 control-label">Rated Temp Drop (&Delta;T)</label>
+					  <div class="col-sm-2">
+						<input class="form-control" type="text" onchange="set_save_chiller_app()" name="rated_temp_drop" value="{{chiller_details_obj.rated_temp_drop}}">
+					  </div>
+					  <label class="col-sm-4">Deg F</label>
+					</div>
+					<div class="form-group form-group-sm">
+					  <label class="col-sm-4 control-label">Typical Percent Loaded</label>
+					  <div class="col-sm-2">
+						<input class="form-control" type="text" onchange="set_save_chiller_app()" name="typical_percent_loaded" value="{{chiller_details_obj.typical_percent_loaded}}">
+					  </div>
+					  <label class="col-sm-4">% Loaded</label>
+					</div>
+					<div class="form-group form-group-sm">
+					  <label class="col-sm-4 control-label">Annual Hours of Operation</label>
+					  <div class="col-sm-2">
+						<input class="form-control" type="text" onchange="set_save_chiller_app()" name="annual_hours_of_operation" value="{{chiller_details_obj.annual_hours_of_operation}}">
+					  </div>
+					  <label class="col-sm-4">Hours</label>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			  <div class="col-md-6">
+				 <div class="panel panel-info">
+				   <div class="panel-heading">
+					 SITE INFORMATION
+				   </div>
+				   <div class="panel-body">
+					 {% if not new_chiller_obj %}
+					 <div class="form-group form-group-sm">
+					   <label class="col-sm-5 control-label">Customer Name</label>
+					   <div class="col-sm-3">
+						 <input disabled class="form-control" type="text" value="{{chiller_details_obj.client.client_name}}">
+					   </div>
+					 </div>
+					 <div class="form-group form-group-sm">
+					   <label class="col-sm-5 control-label">Customer Site</label>
+					   <div class="col-sm-3">
+						 <input disabled class="form-control" type="text" value="{{chiller_details_obj.client.customer_site}}">
+					   </div>
+					 </div>
+					 {% else %}
+					 <div class="form-group form-group-sm">
+					   <label class="col-sm-5 control-label">Customer</label>
+					   <div class="col-sm-6">
+						   <select onchange="set_save_chiller_app()" name="customer" class="col-sm-4">
+							 {% for id, name in client_objects %}
+								<option value="{{id}}">{{ name }}</option>
+							 {% endfor %}
+						   </select>
+					   </div>
+					 </div>
+					 {% endif %}
+					 <div class="form-group form-group-sm">
+					   <label class="col-sm-5 control-label">Project Name</label>
+					   <div class="col-sm-3">
+						 <input class="form-control" type="text" onchange="set_save_chiller_app()" name="project_name" value="{{chiller_details_obj.project_name}}">
+					   </div>
+					 </div>
+					 <div class="form-group form-group-sm">
+					   <label class="col-sm-5 control-label">Electric Utility Rate $</label>
+					   <div class="col-sm-3">
+						 <input class="form-control" type="text" onchange="set_save_chiller_app()" name="electric_utility_rate" value="{{chiller_details_obj.electric_utility_rate}}">
+					   </div>
+					   <label class="col-sm-4">per kWh</label>
+					 </div>
+				   </div>
+				   </div>
+				   <div class="panel panel-info">
+					  <div class="panel-heading">
+					   Chill Loop Pump Information
+					  </div>
+					  <div class="panel-body">
+						  <div class="form-group form-group-sm">
+							  <button type="button" class="btn btn-success btn-sm col-sm-2" data-toggle="modal" data-target="#add_chiller_loop_pump">+ Chill Loop</button>
+							  <button type="button" class="btn btn-success btn-sm col-sm-2 col-sm-offset-1" data-toggle="modal" data-target="#add_condensate_pump">+ Condensate</button>
+							  <label class="col-sm-3 col-sm-offset-2">Pump Sizes</label>
+						  </div>
+						  <div class="form-group form-group-sm">
+							<label class="col-sm-3 control-label">Chill Loop Pump</label>
+							<select onchange="set_save_chiller_app()" name="chiller_loop_pump_obj" class="col-sm-4">
+							  {% for id, name, selection, hp_val in chiller_loop_pump_objs %}
+								  {% if selection == True %}
+									  <option selected value="{{id}}">{{ name }}</option>
+								  {% else %}
+									  <option value="{{id}}">{{ name }}</option>
+								  {% endif %}
+							  {% endfor %}
+							</select>
+							<div class="col-sm-3">
+							  {% for id, name, selection, hp_val in chiller_loop_pump_objs %}
+								{% if selection == True %}
+									<input name="set_chiller_loop_pump_{{id}}" onchange="set_save_chiller_app()" class="form-control control-label" type="text" value="{{hp_val}}">
+								{% endif %}
+							  {% endfor %}
+							</div>
+							<label class="col-sm-1">HP</label>
+						  </div>
+						  <div class="form-group form-group-sm">
+							<label class="col-sm-3 control-label">Condensate Pump</label>
+							<select onchange="set_save_chiller_app()" name="condensate_pump_obj" class="col-sm-4">
+							  {% for id, name, selection, hp_val in condensate_pump_objs %}
+								{% if selection == True %}
+									<option selected value="{{id}}">{{ name }}</option>
+								{% else %}
+									<option value="{{id}}">{{ name }}</option>
+								{% endif %}
+							  {% endfor %}
+							</select>
+							<div class="col-sm-3">
+							  {% for id, name, selection, hp_val in condensate_pump_objs %}
+								  {% if selection == True %}
+									  <input name="set_condensate_pump_{{id}}" onchange="set_save_chiller_app()" class="form-control control-label" type="text" value="{{hp_val}}">
+								  {% endif %}
+								{% endfor %}
+
+							</div>
+							<label class="col-sm-1">HP</label>
+						  </div>
+						  <div class="form-group form-group-sm">
+							  <label class="col-sm-7 control-label">Total</label>
+							  <label class="col-sm-3 bg-success control-label">{{chill_loop_pump_total_hp}}</label>
+						  </div>
+						  <div class="form-group form-group-sm">
+								&nbsp;
+						  </div>
+						  <div class="form-group form-group-sm">
+							  <label class="col-sm-4"></label>
+							  <label class="col-sm-2">Daily kWh</label>
+							  <label class="col-sm-2">Daily Cost</label>
+							  <label class="col-sm-2">Annual kWh</label>
+							  <label class="col-sm-2">Annual Cost</label>
+						  </div>
+						  <div class="form-group form-group-sm">
+							  {% for name, daily_kw, dialy_cost, annual_kw, annual_cost, selection in chiller_loop_pump_kw_cost_list %}
+								{% if selection == True %}
+								   <label class="col-sm-4">{{name}}</label>
+								   <label class="col-sm-2 bg-success control-label">{{daily_kw}}</label>
+								   <label class="col-sm-2 bg-success control-label">${{dialy_cost}}</label>
+								   <label class="col-sm-2 bg-success control-label">{{annual_kw}}</label>
+								   <label class="col-sm-2 bg-success control-label">${{annual_cost}}</label>
+								{% endif %}
+							  {%endfor%}
+						  </div>
+						  <div class="form-group form-group-sm">
+							  {% for name, daily_kw, dialy_cost, annual_kw, annual_cost, selection in condensate_pump_kw_cost_list %}
+								{% if selection == True %}
+								   <label class="col-sm-4">{{name}}</label>
+								   <label class="col-sm-2 bg-success control-label">{{daily_kw}}</label>
+								   <label class="col-sm-2 bg-success control-label">${{dialy_cost}}</label>
+								   <label class="col-sm-2 bg-success control-label">{{annual_kw}}</label>
+								   <label class="col-sm-2 bg-success control-label">${{annual_cost}}</label>
+								{% endif %}
+							  {%endfor%}
+						  </div>
+						  <div class="form-group form-group-sm">
+							  <label class="col-sm-4 control-label">Totals</label>
+							  <label class="col-sm-2 bg-success control-label">{{chill_loop_pump_total_daily_kwh}}</label>
+							  <label class="col-sm-2 bg-success control-label">${{chill_loop_pump_total_daily_cost}}</label>
+							  <label class="col-sm-2 bg-success control-label">{{chill_loop_pump_total_annual_kwh}}</label>
+							  <label class="col-sm-2 bg-success control-label">${{chill_loop_pump_total_annual_cost}}</label>
+						  </div>
+					  </div>
+				   </div>
+				</div>
+			</div>
+
+			<div class="panel panel-info">
+			   <div class="panel-heading">
+				Cooling Tower Temperatures
+			   </div>
+			   <div class="panel-body">
+				   <div class="form-group form-group-sm">
+					   <label class="col-sm-4 col-sm-offset-2">Measured at IN &amp; OUT Pipe Fittings</label>
+				   </div>
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-3 control-label">Cooling Tower Inlet Temp:</label>
+					 <div class="col-sm-2">
+					   <input onchange="set_save_chiller_app()" name="cooling_tower_inlet_temp_in_out_pipe" class="form-control control-label" type="text" value="{{chiller_details_obj.cooling_tower_inlet_temp_in_out_pipe}}">
+					 </div>
+					 <label class="col-sm-1">Deg F</label>
+					 <label class="col-sm-2 col-sm-offset-2">Temp Drop (&Delta;)</label>
+				   </div>
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-3 control-label">Cooling Tower Outlet Temp:</label>
+					 <div class="col-sm-2">
+					   <input onchange="set_save_chiller_app()" name="cooling_tower_outlet_temp_in_out_pipe" class="form-control control-label" type="text" value="{{chiller_details_obj.cooling_tower_outlet_temp_in_out_pipe}}">
+					 </div>
+					 <label class="col-sm-1">Deg F</label>
+					 <label class="col-sm-2 col-sm-offset-2 control-label bg-success">{{get_cooling_tower_temperature_in_and_out_pipe}}</label>
+					 <label class="col-sm-1">Deg F</label>
+				   </div>
+
+				   <div class="form-group form-group-sm">
+					   <label class="col-sm-4 col-sm-offset-2">From Operator Display Screen</label>
+				   </div>
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-3 control-label">Cooling Tower Inlet Temp:</label>
+					 <div class="col-sm-2">
+					   <input onchange="set_save_chiller_app()" name="cooling_tower_inlet_temp_oper_display_screen" class="form-control control-label" type="text" value="{{chiller_details_obj.cooling_tower_inlet_temp_oper_display_screen}}">
+					 </div>
+					 <label class="col-sm-1">Deg F</label>
+					 <label class="col-sm-2 col-sm-offset-2">Temp Drop (&Delta;)</label>
+				   </div>
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-3 control-label">Cooling Tower Outlet Temp:</label>
+					 <div class="col-sm-2">
+					   <input onchange="set_save_chiller_app()" name="cooling_tower_outlet_temp_oper_display_screen" class="form-control control-label" type="text" value="{{chiller_details_obj.cooling_tower_outlet_temp_oper_display_screen}}">
+					 </div>
+					 <label class="col-sm-1">Deg F</label>
+					 <label class="col-sm-2 col-sm-offset-2 control-label bg-success">{{get_cooling_tower_temperature_oper_display_screen}}</label>
+					 <label class="col-sm-1">Deg F</label>
+				   </div>
+			   </div>
+			</div>
+
+
+			<div class="panel panel-info">
+			   <div class="panel-heading">
+				Chiller Loop Temperatures
+			   </div>
+			   <div class="panel-body">
+				   <div class="form-group form-group-sm">
+					   <label class="col-sm-4 col-sm-offset-3">Measured at IN &amp; OUT Pipe Fittings</label>
+				   </div>
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-2 col-sm-offset-1 control-label">Chilled Water Inlet Temp:</label>
+					 <div class="col-sm-1">
+					   <input onchange="set_save_chiller_app()" name="chilled_water_inlet_temp_in_out_pipe" class="form-control control-label" type="text" value="{{chiller_details_obj.chilled_water_inlet_temp_in_out_pipe}}">
+					 </div>
+					 <label class="col-sm-1">Deg F</label>
+					 <label class="col-sm-1">Temp Drop (&Delta;)</label>
+					 <label class="col-sm-1 col-sm-offset-1">Measured Capacity</label>
+					 <label class="col-sm-2 col-sm-offset-1">Measured Tons Of Cooling</label>
+				   </div>
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-2 col-sm-offset-1 control-label">Chilled Water Outlet Temp:</label>
+					 <div class="col-sm-1">
+					   <input onchange="set_save_chiller_app()" name="chilled_water_outlet_temp_in_out_pipe" class="form-control control-label" type="text" value="{{chiller_details_obj.chilled_water_outlet_temp_in_out_pipe}}">
+					 </div>
+					 <label class="col-sm-1">Deg F</label>
+					 <label class="col-sm-1 control-label bg-success">{{get_chiller_loop_temp_in_out_pipe}}</label>
+					 <label class="col-sm-1">Deg F</label>
+					 <label class="col-sm-1 control-label bg-success">{{get_chiller_loop_temp_measured_capacity_percent}} %</label>
+					 <label class="col-sm-1 col-sm-offset-1 control-label bg-success">{{get_measured_tons_of_cooling}}</label>
+				   </div>
+
+				   <div class="form-group form-group-sm">
+					   <label class="col-sm-4 col-sm-offset-3">From Operator Display Screen</label>
+				   </div>
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-2 col-sm-offset-1 control-label">Chilled Water Inlet Temp:</label>
+					 <div class="col-sm-1">
+					   <input onchange="set_save_chiller_app()" name="chilled_water_inlet_temp_oper_display_screen" class="form-control control-label" type="text" value="{{chiller_details_obj.chilled_water_inlet_temp_oper_display_screen}}">
+					 </div>
+					 <label class="col-sm-1">Deg F</label>
+					 <label class="col-sm-1">Temp Drop (&Delta;)</label>
+					 <label class="col-sm-1 col-sm-offset-1">Measured Capacity</label>
+					 <label class="col-sm-2 col-sm-offset-1">Measured Tons Of Cooling</label>
+				   </div>
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-2 col-sm-offset-1 control-label">Chilled Water Outlet Temp:</label>
+					 <div class="col-sm-1">
+					   <input onchange="set_save_chiller_app()" name="chilled_water_outlet_temp_oper_display_screen" class="form-control control-label" type="text" value="{{chiller_details_obj.chilled_water_outlet_temp_oper_display_screen}}">
+					 </div>
+					 <label class="col-sm-1">Deg F</label>
+					 <label class="col-sm-1 control-label bg-success">{{get_chiller_loop_temp_oper_display_screen}}</label>
+					 <label class="col-sm-1">Deg F</label>
+					 <label class="col-sm-1 control-label bg-success">{{get_chiller_loop_temp_oper_display_screen_percent}} %</label>
+					 <label class="col-sm-1 col-sm-offset-1 control-label bg-success">{{get_display_tons_of_cooling}}</label>
+				   </div>
+			   </div>
+			</div>
+
+
+			<div class="panel panel-info">
+			   <div class="panel-heading">
+				Conformation of Chiller Rated Temperature Drop
+			   </div>
+			   <div class="panel-body">
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-2 col-sm-offset-3 control-label bg-success">{{get_gal_per_min_confirmation_of_chiller_rated_temp_drop}}</label>
+					 <label class="col-sm-2">Gal Per Min =</label>
+					 <label class="col-sm-2 control-label bg-success">{{get_lbs_per_min_confirmation_of_chiller_rated_temp_drop}}</label>
+					 <label class="col-sm-2">Lbs Per Min</label>
+				   </div>
+
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-2 col-sm-offset-3 control-label bg-success">{{get_nameplate_tons_confirmation_of_chiller_rated_temp_drop}}</label>
+					 <label class="col-sm-2">Nameplate Tons =</label>
+					 <label class="col-sm-2 control-label bg-success">{{get_btu_per_min_confirmation_of_chiller_rated_temp_drop}}</label>
+					 <label class="col-sm-2">Lbs Per Min</label>
+				   </div>
+
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-4 col-sm-offset-3">Calculated Temp Drop (DT) = (BTU Per Min) / (Lbs Per Min) =</label>
+					 <label class="col-sm-2 control-label bg-success">{{get_calculated_temp_drop}}</label>
+				   </div>
+
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-4 col-sm-offset-3">Compare To Nameplate Rated Temp Drop (DT):</label>
+					 <label class="col-sm-2 control-label bg-success">{{get_compare_to_nameplate_rated_temp_drop}}</label>
+				   </div>
+			   </div>
+			</div>
+
+
+			<div class="panel panel-info">
+			   <div class="panel-heading">
+				Annual Cost of Operation
+			   </div>
+			   <div class="panel-body">
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-1 col-sm-offset-1 control-label bg-success">{{chiller_details_obj.rated_kw}}</label>
+					 <label class="col-sm-3">kW  &#215; Typical Loading of </label>
+					 <label class="col-sm-1 control-label bg-success">{{chiller_details_obj.typical_percent_loaded}}</label>
+					 <label class="col-sm-1">% = </label>
+					 <label class="col-sm-2 control-label bg-success">{{annual_cost_of_operation_kw_during_typical_operation}}</label>
+				   </div>
+
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-4 col-sm-offset-5">Cost Of Chiller Only Operation</label>
+				   </div>
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-3 col-sm-offset-1">Daily kWh</label>
+					 <label class="col-sm-3 col-sm-offset-1">Annual kWh</label>
+					 <label class="col-sm-3 col-sm-offset-1">Annual Cost</label>
+				   </div>
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-3 col-sm-offset-1 control-label bg-success">{{get_cost_of_chiller_operation_only_daily}}</label>
+					 <label class="col-sm-3 col-sm-offset-1 control-label bg-success">{{get_cost_of_chiller_operation_only_annualy}}</label>
+					 <label class="col-sm-3 col-sm-offset-1 control-label bg-success">${{get_cost_of_chiller_operation_only_annual_cost}}</label>
+				   </div>
+
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-4 col-sm-offset-5">Cost Of Associated Pump Operation</label>
+				   </div>
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-3 col-sm-offset-1">Daily kWh</label>
+					 <label class="col-sm-3 col-sm-offset-1">Annual kWh</label>
+					 <label class="col-sm-3 col-sm-offset-1">Annual Cost</label>
+				   </div>
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-3 col-sm-offset-1 control-label bg-success">{{chill_loop_pump_total_daily_kwh}}</label>
+					 <label class="col-sm-3 col-sm-offset-1 control-label bg-success">{{chill_loop_pump_total_annual_kwh}}</label>
+					 <label class="col-sm-3 col-sm-offset-1 control-label bg-success">${{chill_loop_pump_total_annual_cost}}</label>
+				   </div>
+
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-4 col-sm-offset-5">Total Cost Of Chiller &amp; Pump Operation</label>
+				   </div>
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-3 col-sm-offset-1">Daily kWh</label>
+					 <label class="col-sm-3 col-sm-offset-1">Annual kWh</label>
+					 <label class="col-sm-3 col-sm-offset-1">Annual Cost</label>
+				   </div>
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-3 col-sm-offset-1 control-label bg-success">{{total_daily_kwh}}</label>
+					 <label class="col-sm-3 col-sm-offset-1 control-label bg-success">{{total_annual_kwh}}</label>
+					 <label class="col-sm-3 col-sm-offset-1 control-label bg-success">${{total_annual_cost}}</label>
+				   </div>
+			   </div>
+			</div>
+			{% if not new_chiller_obj %}
+			<div class="panel panel-info">
+			   <div class="panel-heading">
+				   <div class="row">
+					 <label class="col-md-5">Chiller Images</label>
+					 <button type="button" class="btn btn-success btn-sm col-sm-offset-6 col-sm-1 control-label" data-toggle="modal" data-target="#add_chiller_images">+ Chill Image</button>
+				   </div>
+
+			   </div>
+			   <div class="panel-body">
+				   <div class="form-group form-group-sm">
+					 <label class="col-sm-2">Image Name</label>
+					 <label class="col-sm-4">Image</label>
+					 <label class="col-sm-6">Description</label>
+				   </div>
+				   {% for each_image in chiller_images %}
+					   <div class="row">
+						 <label class="col-sm-2">{{each_image.chiller_images_name}}</label>
+						 <a class="col-sm-4" href="{{each_image.path_to_image.url}}">
+							 <img src="{{each_image.path_to_image.url}}" alt="{{each_image.chiller_images_name}}" height="100" width="100"/>
+						 </a>
+						 <label class="col-sm-6">{{each_image.image_description}}</label>
+					   </div>
+				   {% endfor %}
+			   </div>
+			</div>
+			{% endif %}
+
+			<input id="save_chiller_app" name="save_chiller_app" type="text" value="0" hidden/>
+			<input type="submit" value="Save" class="btn btn-success">
+		</form>
+
+		<!-- Modal -->
+		<div class="modal fade" id="add_chiller_loop_pump" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Add Chill Loop Pump</h4>
+					</div>
+					{% if new_chiller_obj %}
+						  <form class="form-horizontal" action="/chiller_app/details/add/" method="post" name="save_chiller_app">
+					{% else %}
+						  <form class="form-horizontal" action="/chiller_app/details/{{chiller_details_obj.id}}/" method="post" name="save_chiller_app">
+					{% endif %}
+						{% csrf_token %}
+						<div class="modal-body">
+							<div class="form-group form-group-sm">
+							  <label class="col-sm-4 control-label">Chiller Loop Pump Name</label>
+							  <div class="col-sm-2">
+								<input class="form-control" type="text" onchange="set_save_chiller_loop_pump()" name="chiller_loop_pump_name">
+							  </div>
+							</div>
+							<div class="form-group form-group-sm">
+							  <label class="col-sm-4 control-label">Chiller Loop Pump</label>
+							  <div class="col-sm-2">
+								<input class="form-control" type="text" onchange="set_save_chiller_loop_pump()" name="chill_loop_pump">
+							  </div>
+							</div>
+						</div>
+						<input id="save_chiller_loop_pump" name="save_chiller_loop_pump" type="text" value="0" hidden/>
+						<div class="modal-footer">
+							<input type="submit" value="Save" class="btn btn-default">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="add_condensate_pump" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Add Condensate Pump</h4>
+					</div>
+					{% if new_chiller_obj %}
+						  <form class="form-horizontal" action="/chiller_app/details/add/" method="post" name="save_chiller_app">
+					{% else %}
+						  <form class="form-horizontal" action="/chiller_app/details/{{chiller_details_obj.id}}/" method="post" name="save_chiller_app">
+					{% endif %}
+						{% csrf_token %}
+						<div class="modal-body">
+							<div class="form-group form-group-sm">
+							  <label class="col-sm-4 control-label">Condensate Pump Name</label>
+							  <div class="col-sm-2">
+								<input class="form-control" type="text" onchange="set_save_condensate_pump()" name="condensate_pump_name">
+							  </div>
+							</div>
+							<div class="form-group form-group-sm">
+							  <label class="col-sm-4 control-label">Condensate Pump</label>
+							  <div class="col-sm-2">
+								<input class="form-control" type="text" onchange="set_save_condensate_pump()" name="condensate_pump">
+							  </div>
+							</div>
+						</div>
+						<input id="save_condensate_pump" name="save_condensate_pump" type="text" value="0" hidden/>
+						<div class="modal-footer">
+							<input type="submit" value="Save" class="btn btn-default">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		{% if not new_chiller_obj %}
+		<div class="modal fade" id="add_chiller_images" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Add Chiller Image</h4>
+					</div>
+					<form class="form-horizontal" action="/chiller_app/images/{{chiller_details_obj.id}}/" method="post" enctype="multipart/form-data" name="save_chiller_app">
+						{% csrf_token %}
+						<div class="modal-body">
+							<div class="form-group form-group-sm">
+							  <label class="col-sm-4 control-label">Image Name</label>
+							  <div class="col-sm-2">
+								<input class="form-control" type="text" onchange="set_save_image()" name="image_name">
+							  </div>
+							</div>
+							<div class="form-group form-group-sm">
+							  <label class="col-sm-4 control-label">Image Description</label>
+							  <div class="col-sm-8">
+								<input class="form-control" type="text" onchange="set_save_image()" name="image_description">
+							  </div>
+							</div>
+							<div class="form-group form-group-sm">
+							  <label class="col-sm-4 control-label">Upload file</label>
+							  <div class="col-sm-2">
+								<input class="btn btn-file" type="file" onchange="set_save_image()" name="image_file">
+							  </div>
+							</div>
+						</div>
+						<input id="save_chiller_image" name="save_chiller_image" type="text" value="0" hidden/>
+						<div class="modal-footer">
+							<input type="submit" value="Save" class="btn btn-default">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+
+	  {% else %}
+		  <p>No Premium Motor information available</p>
+	  {% endif %}
+	</div>
+
+	<footer class="footer">
+	  <div class="container-fluid">
+		<p class="text-muted">Copyrights go here.</p>
+	  </div>
+	</footer>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="{% static "vfd_app/js/bootstrap.min.js" %}"></script>
+	<script type="text/javascript">
+	  function set_save_chiller_app() {
+		element = document.getElementById('save_chiller_app');
+		element.value = '1';
+	  }
+	  function set_save_chiller_loop_pump() {
+		element = document.getElementById('save_chiller_loop_pump');
+		element.value = '1';
+	  }
+	  function set_save_condensate_pump() {
+		element = document.getElementById('save_condensate_pump');
+		element.value = '1';
+	  }
+	  function set_save_image() {
+		  element = document.getElementById('save_chiller_image');
+		  element.value = '1';
+	  }
+	</script>
+
+  </body>
+</html>

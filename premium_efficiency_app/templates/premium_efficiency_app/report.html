@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sample Mockup Premium Efficiency Details page</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/bootstrap.min.css" %}">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <!-- Begin page content -->
+    <div class="container">
+
+      {% if premium_client_motor_obj %}
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <p><h4>Motor Name: </h4> {{ premium_client_motor_obj.motor_name}}</p>
+        </div>
+        <form class="form-horizontal">
+          &nbsp;
+          <div class="form-group form-group-sm">
+            <label class="col-sm-5 control-label">Annual Operating Hours</label>
+            <div class="col-sm-3">
+              <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.annual_operating_hours}}">
+            </div>
+          </div>
+          <div class="form-group form-group-sm">
+            <label class="col-sm-5 control-label">Energy Cost</label>
+            <div class="col-sm-3">
+              <input disabled class="form-control" type="text" value="${{premium_client_motor_obj.energy_cost}}">
+            </div>
+          </div>
+          <div class="form-group form-group-sm">
+            <label class="col-sm-5 control-label">Motor Nameplate HP</label>
+            <div class="col-sm-3">
+              <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.motor_nameplate_hp}}">
+            </div>
+          </div>
+          <div class="form-group form-group-sm">
+            <label class="col-sm-5 control-label">Motor Nameplate RPM</label>
+            <div class="col-sm-3">
+              <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.motor_nameplate_rpm}}">
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-4">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Existing Motor data
+                </div>
+                <div class="panel-body">
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">Full Load Efficiency %</label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.existing_full_load_eff}}">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">3/4 Load Efficiency % </label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.existing_three_fourth_load_eff}}">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">1/2 Load Efficiency % </label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.existing_half_load_eff}}">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">Motor Purchase Price </label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="${{premium_client_motor_obj.existing_motor_purchase_price}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Proposed Motor data
+                </div>
+                <div class="panel-body">
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">Full Load Efficiency %</label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.proposed_full_load_eff}}">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">3/4 Load Efficiency % </label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.proposed_three_fourth_load_eff}}">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">1/2 Load Efficiency % </label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.proposed_half_load_eff}}">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">Motor Purchase Price </label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="${{premium_client_motor_obj.proposed_motor_purchase_price}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Purchase price differential
+                </div>
+                <div class="panel-body">
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">&nbsp;</label>
+                    <div class="col-sm-4">
+                      &nbsp;
+                    </div>
+                  </div>
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">&nbsp;</label>
+                    <div class="col-sm-4">
+                      &nbsp;
+                    </div>
+                  </div>
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">&nbsp;</label>
+                    <div class="col-sm-4">
+                      &nbsp;
+                    </div>
+                  </div>
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-1 control-label">&nbsp;</label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="${{premium_client_motor_obj.purchase_difference}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Existing Motor savings estimates
+                </div>
+                <div class="panel-body">
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">Energy cost @ Full Load Efficiency</label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.existing_energy_cost_full_load}}">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">Energy cost @ 3/4 Load Efficiency</label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.existing_energy_cost_three_fourth_load}}">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">Energy cost @ 1/2 Load Efficiency</label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.existing_energy_cost_half_load}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Proposed Motor savings estimates
+                </div>
+                <div class="panel-body">
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">Energy cost @ Full Load Efficiency</label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.proposed_energy_cost_full_load}}">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">Energy cost @ 3/4 Load Efficiency</label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.proposed_energy_cost_three_fourth_load}}">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-6 control-label">Energy cost @ 1/2 Load Efficiency</label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.proposed_energy_cost_half_load}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Annual Operating cost Differential
+                </div>
+                <div class="panel-body">
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.annual_cost_diff_full_load}}">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.annual_cost_diff_three_fourth_load}}">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-sm">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-4">
+                      <input disabled class="form-control" type="text" value="{{premium_client_motor_obj.annual_cost_diff_half_load}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        </form>
+
+      {% else %}
+          <p>No Premium Motor information available</p>
+      {% endif %}
+    </div>
+
+    <footer class="footer">
+      <div class="container-fluid">
+        <p class="text-muted">Copyrights go here.</p>
+      </div>
+    </footer>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static "vfd_app/js/bootstrap.min.js" %}"></script>
+
+  </body>
+</html>

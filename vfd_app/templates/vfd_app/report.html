@@ -1,0 +1,597 @@
+
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Sample Mockup VFD Details page</title>
+
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/bootstrap.min.css" %}">
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+  </head>
+
+  <body>
+	<!-- Begin page content -->
+	<div class="container">
+	  {% if data %}
+	  <div class="row">
+		<div class="col-md-4">
+		  <div class="panel panel-info">
+			<div class="panel-heading">
+			  VFD Actual Name
+			</div>
+			<div class="panel-body">
+			  {{ data.vfd_actual_name }}
+			</div>
+		  </div>
+		</div>
+		<div class="col-md-4">
+		  <div class="panel panel-info">
+			<div class="panel-heading">
+			  Installed Date
+			</div>
+			<div class="panel-body">
+			  {{ data.installed_date }}
+			</div>
+		  </div>
+		</div>
+		<div class="col-md-4">
+		  <div class="panel panel-info">
+			<div class="panel-heading">
+			  Client Name
+			</div>
+			<div class="panel-body">
+			  {{ data.client_name }}
+			</div>
+		  </div>
+		</div>
+	  </div>
+
+
+		<form class="form-horizontal" action="/vfd_app/report/{{ data.client_vfd_id }}/" method="post" name="save_vfd_details">
+		  {% csrf_token %}
+		  <div class="row">
+			<div class="col-md-2">
+			  <div class="panel panel-info">
+				<div class="panel-heading">
+				  VFD Name
+				</div>
+				<div class="panel-body">
+				  <input onchange="setval()" type="text" class="form-control input-sm" name="vfd_name" value="{{ data.vfd_name }}" placeholder="VFD Name"/>
+				</div>
+			  </div>
+			</div>
+			<div class="col-md-2">
+			  <div class="panel panel-info">
+				<div class="panel-heading">
+				  Cost per kWh
+				</div>
+				<div class="panel-body">
+				  <input onchange="setval()" type="text" class="form-control input-sm" name="cost_per_kwh" value="{{ data.cost_per_kwh }}" placeholder="Cost per kWh"/>
+				</div>
+			  </div>
+			</div>
+			<div class="col-md-2">
+			  <div class="panel panel-info">
+				<div class="panel-heading">
+				  Motor Hp
+				</div>
+				<div class="panel-body">
+				  <input onchange="setval()" type="text" class="form-control input-sm" name="motor_horse_pwr" value="{{ data.motor_horse_pwr }}" placeholder="Horse pwr"/>
+				</div>
+			  </div>
+			</div>
+			<div class="col-md-2">
+			  <div class="panel panel-info">
+				<div class="panel-heading">
+				  Existing Motor Eff.%
+				</div>
+				<div class="panel-body">
+				  <input onchange="setval()" type="text" class="form-control input-sm" name="existing_motor_efficiency" value="{{ data.existing_motor_efficiency }}" placeholder="in %"/>
+				</div>
+			  </div>
+			</div>
+			<div class="col-md-2">
+			  <div class="panel panel-info">
+				<div class="panel-heading">
+				  Proposed VFD Eff.%
+				</div>
+				<div class="panel-body">
+				  <input onchange="setval()" type="text" class="form-control input-sm" name="proposed_vfd_efficiency" value="{{ data.proposed_vfd_efficiency }}" placeholder="in %"/>
+				</div>
+			  </div>
+			</div>
+			<div class="col-md-2">
+			  <div class="panel panel-info">
+				<div class="panel-heading">
+				  Motor Load %
+				</div>
+				<div class="panel-body">
+				  <input onchange="setval()" type="text" class="form-control input-sm" name="motor_load" value="{{ data.motor_load }}"/>
+				</div>
+			  </div>
+			</div>
+		  </div>
+
+		  <div class="panel panel-info">
+			<div class="panel-heading">
+			  Existing Motor Montly Usage
+			</div>
+			<div class="panel-body">
+
+				{% if data %}
+				<table class="table table-striped">
+				  {% if data.table_header %}
+					<tr>
+						<th>{{ data.existing_motor_header.speed }}</th>
+						<th>{{ data.existing_motor_header.jan }}</th>
+						<th>{{ data.existing_motor_header.feb }}</th>
+						<th>{{ data.existing_motor_header.mar }}</th>
+						<th>{{ data.existing_motor_header.apr }}</th>
+						<th>{{ data.existing_motor_header.may }}</th>
+						<th>{{ data.existing_motor_header.jun }}</th>
+						<th>{{ data.existing_motor_header.jul }}</th>
+						<th>{{ data.existing_motor_header.aug }}</th>
+						<th>{{ data.existing_motor_header.sep }}</th>
+						<th>{{ data.existing_motor_header.oct }}</th>
+						<th>{{ data.existing_motor_header.nov }}</th>
+						<th>{{ data.existing_motor_header.dec }}</th>
+						<th>Total hours of operation</th>
+						<th>Existing Motor kWh</th>
+						<th>Cost</th>
+					</tr>
+				  {% if data.existing_motor_body %}
+					{% for each_body_data in data.existing_motor_body %}
+					<tr>
+						<td class="input-sm"> {{ each_body_data.speed }}%</th>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.jan }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.feb }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.mar }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.apr }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.may }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.jun }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.jul }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.aug }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.sep }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.oct }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.nov }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.dec }}"/></td>
+						<td class="text-right">{{ each_body_data.total_hours_of_operation }}</td>
+						<td class="text-right">{{ each_body_data.existing_kwh }}</td>
+						<td class="text-right">${{ each_body_data.cost }}</td>
+					</tr>
+					{% endfor %}
+				  {% endif %}
+				{% endif %}
+				</table>
+
+				{% endif %}
+			</div>
+		  </div>
+
+		  <div class="panel panel-info">
+			<div class="panel-heading">
+			  Proposed VFD Monthly Usage
+			</div>
+			<div class="panel-body">
+
+				{% if data %}
+				<table class="table table-striped">
+				  {% if data.table_header %}
+					<tr>
+						<th>{{ data.table_header.speed }}</th>
+						<th>{{ data.table_header.jan }}</th>
+						<th>{{ data.table_header.feb }}</th>
+						<th>{{ data.table_header.mar }}</th>
+						<th>{{ data.table_header.apr }}</th>
+						<th>{{ data.table_header.may }}</th>
+						<th>{{ data.table_header.jun }}</th>
+						<th>{{ data.table_header.jul }}</th>
+						<th>{{ data.table_header.aug }}</th>
+						<th>{{ data.table_header.sep }}</th>
+						<th>{{ data.table_header.oct }}</th>
+						<th>{{ data.table_header.nov }}</th>
+						<th>{{ data.table_header.dec }}</th>
+						<th>Total hours of operation</th>
+						<th>Proposed VFD kWh</th>
+						<th>Cost</th>
+					</tr>
+				  {% if data.table_body %}
+					{% for each_body_data in data.table_body %}
+					<tr>
+						<td class="input-sm"> {{ each_body_data.speed }} %</th>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_jan" value="{{ each_body_data.jan }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_feb" value="{{ each_body_data.feb }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_mar" value="{{ each_body_data.mar }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_apr" value="{{ each_body_data.apr }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_may" value="{{ each_body_data.may }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_jun" value="{{ each_body_data.jun }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_jul" value="{{ each_body_data.jul }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_aug" value="{{ each_body_data.aug }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_sep" value="{{ each_body_data.sep }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_oct" value="{{ each_body_data.oct }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_nov" value="{{ each_body_data.nov }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_dec" value="{{ each_body_data.dec }}"/></td>
+						<td class="text-right">{{ each_body_data.total_hours_of_operation }}</td>
+						<td class="text-right">{{ each_body_data.proposed_vfd_kwh }}</td>
+						<td class="text-right">{{ each_body_data.cost }}</td>
+					</tr>
+					{% endfor %}
+					<tr>
+						<td class="input-sm"> {{ data.table_footer.speed }}</th>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.jan }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.feb }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.mar }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.apr }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.may }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.jun }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.jul }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.aug }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.sep }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.oct }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.nov }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.dec }}"/></td>
+						<th class="text-right">{{ data.table_footer.total_hours_of_operation }}</th>
+						<th class="text-right">{{ data.table_footer.total_proposed_vfd_kwh }}</th>
+						<th class="text-right">{{ data.table_footer.total_proposed_cost }}</th>
+					</tr>
+				  {% endif %}
+				{% endif %}
+				</table>
+
+				{% endif %}
+			</div>
+		  </div>
+
+		  <div class="panel panel-info">
+			<div class="panel-heading">
+			  Report
+			</div>
+			<div class="panel-body">
+			  <div class="row">
+				<div class="col-md-4">
+				  <div class="input-group">
+					<span class="input-group-addon">Existing Total kWh</span>
+					<input disabled type="text" class="form-control text-right" id="inputGroupSuccess2" value="{{ data.existing_kwh }}">
+				  </div>
+				  <div class="input-group">
+					<span class="input-group-addon">Existing Total Cost</span>
+					<input disabled type="text" class="form-control text-right" id="inputGroupSuccess2" value="${{ data.existing_cost }}">
+				  </div>
+				</div>
+				<div class="col-md-4">
+				  <div class="input-group">
+					<span class="input-group-addon">Proposed VFD Total kWh</span>
+					<input disabled type="text" class="form-control text-right" id="inputGroupSuccess2" value="{{ data.total_proposed_vfd_kwh }}">
+				  </div>
+				  <div class="input-group">
+					<span class="input-group-addon">Proposed VFD Total Cost</span>
+					<input disabled type="text" class="form-control text-right" id="inputGroupSuccess2" value="${{ data.total_proposed_cost }}">
+				  </div>
+				</div>
+				<div class="col-md-4">
+				  <div class="input-group">
+					<span class="input-group-addon">Total kWh Savings</span>
+					<input disabled type="text" class="form-control text-right" id="inputGroupSuccess2" value="{{ data.annual_kwh_savings }}">
+				  </div>
+				  <div class="input-group">
+					<span class="input-group-addon">Total Cost Savings</span>
+					<input disabled type="text" class="form-control text-right" id="inputGroupSuccess2" value="${{ data.annual_cost_savings }}">
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+
+
+
+		  <div class="panel panel-info">
+			<div class="panel-heading">
+			  <div class="row">
+				<div class="col-md-6">
+				  Materials Pricing
+				</div>
+				<div class="col-md-6 text-right">
+				  <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">+</button>
+				  <!-- Modal -->
+				  <div class="modal fade" id="myModal" role="dialog">
+					<div class="modal-dialog modal-lg">
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+						  <h4 class="modal-title text-center">Add Material</h4>
+						</div>
+						<div class="modal-body">
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">Item</label>
+							<div class="col-sm-10">
+							  <input type="text" onchange="setaddmaterial()" class="form-control" name="item" placeholder="Item">
+							</div>
+						  </div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">Supplier</label>
+							<div class="col-sm-10">
+							  <input type="text" onchange="setaddmaterial()" class="form-control" name="supplier" placeholder="Supplier">
+							</div>
+						  </div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">Description</label>
+							<div class="col-sm-10">
+							  <input type="text" onchange="setaddmaterial()" class="form-control" name="description" placeholder="Description">
+							</div>
+						  </div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">GES Cost Each</label>
+							<div class="col-sm-10">
+							  <input type="text" onchange="setaddmaterial()" class="form-control" name="ges_cost_each" placeholder="0.00">
+							</div>
+						  </div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">GES Markup</label>
+							<div class="col-sm-10">
+							  <input type="text" onchange="setaddmaterial()" class="form-control" name="ges_markup" placeholder="1.00">
+							</div>
+						  </div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">Quantity</label>
+							<div class="col-sm-10">
+							  <input type="text" onchange="setaddmaterial()" class="form-control" name="quantity" placeholder="0">
+							</div>
+						  </div>
+						</div>
+						<div class="modal-footer">
+						  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						  <input type="submit" value="Save" class="btn btn-default">
+						</div>
+					  </div>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			<div class="panel-body">
+			  <table class="table table-striped">
+				  <tr>
+					  <th>Quantity</th>
+					  <th>Item</th>
+					  <th>Supplier</th>
+					  <th>Description</th>
+					  <th>GES Cost Each</th>
+					  <th>GES Markup</th>
+					  <th>Customer Price Each</th>
+					  <th>Extended Cost</th>
+				  </tr>
+				  {% for each_body_data in data.materials_data.list %}
+				  <tr>
+					  <td class="input-sm"> {{ each_body_data.quantity }}</th>
+					  <td class="input-sm"> {{ each_body_data.item }}</th>
+					  <td class="input-sm"> {{ each_body_data.supplier }}</th>
+					  <td class="input-sm"> {{ each_body_data.description }}</th>
+					  <td class="input-sm text-right"> ${{ each_body_data.ges_cost_each }}</th>
+					  <td class="input-sm"> {{ each_body_data.ges_markup }}</th>
+					  <td class="input-sm text-right"> ${{ each_body_data.customer_each_price }}</th>
+					  <td class="input-sm text-right"> ${{ each_body_data.extended_cost }}</th>
+				  </tr>
+				  {% endfor %}
+				  <tr>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <th>Total Material Cost</th>
+					  <th class="text-right">${{ data.materials_data.total_material_cost }}</th>
+				  </tr>
+				  <tr>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <th>Misc  Materials (%):</th>
+					  <th>{{ data.materials_data.miss_materials_percent }}%</th>
+				  </tr>
+				  <tr>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <th>Total Material Cost(including misc)</th>
+					  <th class="text-right">${{ data.materials_data.total_material_miss_cost }}</th>
+				  </tr>
+			  </table>
+
+
+			</div>
+		  </div>
+
+		  <div class="panel panel-info">
+			<div class="panel-heading">
+
+			  <div class="row">
+				<div class="col-md-6">
+				  Labor Pricing
+				</div>
+				<div class="col-md-6 text-right">
+				  <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal2">+</button>
+				  <!-- Modal -->
+				  <div class="modal fade" id="myModal2" role="dialog">
+					<div class="modal-dialog modal-lg">
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+						  <h4 class="modal-title text-center">Add Labor</h4>
+						</div>
+						<div class="modal-body">
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">Item</label>
+							<div class="col-sm-10">
+							  <input type="text" onchange="setaddlabor()" class="form-control" name="item_labor" placeholder="Item">
+							</div>
+						  </div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">Vendor</label>
+							<div class="col-sm-10">
+							  <input type="text" onchange="setaddlabor()" class="form-control" name="vendor" placeholder="Supplier">
+							</div>
+						  </div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">Hourly Rate</label>
+							<div class="col-sm-10">
+							  <input type="text" onchange="setaddlabor()" class="form-control" name="hourly_rate" placeholder="0">
+							</div>
+						  </div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">Fixed Cost</label>
+							<div class="col-sm-10">
+							  <input type="text" onchange="setaddlabor()" class="form-control" name="fixed_cost" placeholder="0.00">
+							</div>
+						  </div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">GES Cost</label>
+							<div class="col-sm-10">
+							  <input type="text" onchange="setaddlabor()" class="form-control" name="ges_cost" placeholder="0.00">
+							</div>
+						  </div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">GES Markup</label>
+							<div class="col-sm-10">
+							  <input type="text" onchange="setaddlabor()" class="form-control" name="ges_labor_markup" placeholder="1.00">
+							</div>
+						  </div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">Quantity</label>
+							<div class="col-sm-10">
+							  <input type="text" onchange="setaddlabor()" class="form-control" name="quantity_labor" placeholder="0">
+							</div>
+						  </div>
+						</div>
+						<div class="modal-footer">
+						  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						  <input type="submit" value="Save" class="btn btn-default">
+						</div>
+					  </div>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			<div class="panel-body">
+			  <table class="table table-striped">
+				  <tr>
+					  <th>Quantity</th>
+					  <th>Item</th>
+					  <th>Vendor</th>
+					  <th>Hourly Rate</th>
+					  <th>Fixed Cost</th>
+					  <th>GES Cost</th>
+					  <th>GES Markup</th>
+					  <th>Customer Price</th>
+				  </tr>
+				  {% for each_body_data in data.labor_data.list %}
+				  <tr>
+					  <td class="input-sm"> {{ each_body_data.quantity }}</th>
+					  <td class="input-sm"> {{ each_body_data.item }}</th>
+					  <td class="input-sm"> {{ each_body_data.vendor }}</th>
+					  <td class="input-sm text-right"> ${{ each_body_data.hourly_rate }}</th>
+					  <td class="input-sm text-right"> ${{ each_body_data.fixed_cost }}</th>
+					  <td class="input-sm text-right"> ${{ each_body_data.ges_cost }}</th>
+					  <td class="input-sm"> {{ each_body_data.ges_markup }}</th>
+					  <td class="input-sm text-right"> ${{ each_body_data.customer_price }}</th>
+				  </tr>
+				  {% endfor %}
+				  <tr>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <th>Total Labor Cost</th>
+					  <th class="text-right">${{ data.labor_data.total_labor_cost }}</th>
+				  </tr>
+				  <tr>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <th>Misc  Materials (%):</th>
+					  <th>{{ data.labor_data.miss_labor_percent }}%</th>
+				  </tr>
+				  <tr>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <th>Total Material Cost(including misc)</th>
+					  <th class="text-right">${{ data.labor_data.total_labor_miss_cost }}</th>
+				  </tr>
+				  <tr>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <th>Total Project Cost</th>
+					  <th class="text-right">${{ data.project_cost }}</th>
+				  </tr>
+			  </table>
+			</div>
+		  </div>
+		  <input id="save_text" name="save_text" type="text" value="0" hidden/>
+		  <input id="save_material" name="save_material" type="text" value="0" hidden/>
+		  <input id="save_labor" name="save_labor" type="text" value="0" hidden/>
+		  <input type="submit" value="Save" class="btn btn-default">
+		</form>
+
+	  {% else %}
+		<div class="page-header">
+		  <h1>No Client VFD details are available.</h1>
+		</div>
+	  {% endif %}
+	</div>
+
+	<footer class="footer">
+	  <div class="container-fluid">
+		<p class="text-muted">Copyrights go here.</p>
+	  </div>
+	</footer>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="{% static "vfd_app/js/bootstrap.min.js" %}"></script>
+	<script type="text/javascript">
+	  function setval() {
+		element = document.getElementById('save_text');
+		element.value = '1'
+	  }
+	  function setaddmaterial() {
+		element = document.getElementById('save_material');
+		element.value = '1'
+	  }
+	  function setaddlabor() {
+		element = document.getElementById('save_labor');
+		element.value = '1'
+	  }
+	</script>
+
+  </body>
+</html>

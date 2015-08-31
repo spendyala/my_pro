@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>SB Admin - Bootstrap Admin Template</title>
+
+	<!-- Bootstrap Core CSS -->
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/bootstrap.min.css" %}">
+	<link rel="stylesheep" type="text/css" href="{% static "vfd_app/css/bootstrap-rtl.min.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/sb-admin.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/sb-admin-rtl.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/plugins/morris.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/plugins/font-awesome.min.cs" %}">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+
+<body>
+	<div id="wrapper">
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">Home</a>
+				<a class="navbar-brand" href="/clients">Clients</a>
+				<a class="navbar-brand" href="/vfd_app">VFD App</a>
+				<a class="navbar-brand" href="/premium_efficiency_app">Premium Efficiency App</a>
+				<a class="navbar-brand" href="/chiller_app">Chiller App</a>
+			</div>
+		</nav>
+	</div>
+	<div id="page-wrapper">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">
+						Database Solution
+					</h1>
+					<h3>Advantages of Solution</h3>
+					<ul>
+						<li>Integrity can be enforced which means data in database is always accurate such that incorrect information cannot be stored in database. In order to maintain the integrity, some integrity constraints are enforced in the database.</li>
+						<li>Inconsistency in the spreadsheets can be avoided i.e. When some changes are made at one cell of the spreadsheet it won’t be needed to take care of the another cell for the correct formula or data.</li>
+						<li>Data will be shared with multiple applicants in centralized DBMS as compared to Excel spreadsheets tool.</li>
+						<li>Restricting Unauthorized Access i.e. when multiple users share a database, it is likely that some users will not be authorized to access all information in the database.</li>
+						<li>Providing backup and Recovery i.e. a database is easy to recover from hardware or software failures.</li>
+						<li>Data Organization unlike in Excel spreadsheets.</li>
+					</ul>
+
+					<h3>Framework Being Used</h3>
+					<ul>
+						<li>The Framework being used is <a tabindex="-1" href="https://www.djangoproject.com/" target="_blank">Django Framework</a> which is built using high level <a tabindex="-1" href"http://www.python.org" target="_blank">Python Programming</a>.</li>
+						<li>Django provides us easy access to database. We can create database objects using Django models.</li>
+						<li>Authenticating the user using Django Framework provides us good support. Keeps the username and passwords safe.</li>
+						<li>MVC (Model View Controller) is possible using Django Framework.</li>
+						<li>Python provides modular programming. Code readability, modifying and changes are easy and understandable</li>
+						<li>Django provides administrator interface to access database. So any administrator user easily change the values without depending on developer to make changes.</li>
+						<li>Django provides portability between different databases. For example, it is easy to switch between Oracle, PostgreSQL etc.</li>
+						<li>Easy to control the code between User Interface (UI) and database.</li>
+						<li>Open-Source need not to invest money on libraries, tools and packages.</li>
+						<li>Help is available on the internet and it is updated with later products and features.</li>
+						<li>Logging of events in log files will help us which user modified the content or data and provide right services to the customers.</li>
+						<li>Communities are available to provide support online. Ex. <a tabindex="-1" target="_blank" href="http://stackoverflow.com/">stackoverflow.com</a></li>
+					</ul>
+
+					<h3>Relational Database</h3>
+					<p>Along with the Framework we need a database to store our data. For this, my proposal is to use SQLite for Development and PostgreSQL for Production.</p>
+					<p>Uses of <a tabindex="-1" target="_blank" href="https://www.sqlite.org/">SQLite</a>, it is portable, Open-Source and can be used on the laptop/desktop (Support multiple operating systems Mac OS, Windows, Linux) at the time of development. We need not to have extra resources to test the application. Easy to use and help at the time of Development.</p>
+					<h4><a tabindex="-1" target="_blank" href="http://www.postgresql.org/">PostgreSQL</a> for Production.</h4>
+					<p>This is a an Open-Source Advanced Relational Database.</p>
+					<ul>
+						<li>Well written documentation provides us easy understanding of the usage.</li>
+						<li>Making High-Availability, this means when primary database instance is not working we can make slave as primary will be up and running.</li>
+						<li>Disaster recovery is possible, we need to save our data from catastrophic and unknown disasters. To avoid these we can store data in different datacenter. </li>
+						<li>Sync the data can be possible to a by using right services with an less impact on services and data loss during catastrophic disasters.</li>
+					</ul>
+					<h4>Amazon Cloud Services</h4>
+					<p>Use of Amazon cloud services will help us in removing the hassle and maintenance of servers and their upgradations.</p>
+					<p>Amazon provides Virtual Machines where we can add additional servers depending on load or traffic. This helps us not to worry about hardware failures.
+Easy to maintain, we can add additional resources like Main Memory (RAM), Harddisk can be updated depending on the usage. We pay for the resources that we use.</p>
+					<p>Since, Amazon services are online it will be easy for us to deploy the code and create Database instances at different datacenters. So they will be in sync all the time and can provide services to customers 24*7.</p>
+					<p>EC2 instances can be created with linux installed and deploy the framework and connecting to PostgreSQL provided by Amazon cloud.</p>
+					<p>Apps that have been built till now are.</p>
+					<ul>
+						<li>VFD Analysis Application</li>
+						<li>Premium Motor Efficiency Upgrade Application</li>
+						<li>Chiller  Performance Application</li>
+					</ul>
+					<h3>STEPS Breakdown to Built one App</h3>
+
+						<table class="table table-striped">
+							<tr>
+								<th>Step</th>
+								<th>Developement</th>
+								<th>Level of Effort (approximations)</th>
+								<th>Complexity</th>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td>Creating Django Models for DB tables for average of 10 fields takes about.</td>
+								<td>~1 ½ Hours</td>
+								<td class="alert alert-info">Moderate</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>UI Design depending on number of text fields to be displayed. Average number of fields 20 fields.</td>
+								<td>~2 - 3 Hours</td>
+								<td class="alert alert-success">Easy</td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>Interface this is to integrate Database for 10 fields (Django models)with UI.</td>
+								<td>~3 - 4 Hours</td>
+								<td class="alert alert-warning">High</td>
+							</tr>
+							<tr>
+								<td>4</td>
+								<td>Deploying and to perform manual testing the software. This involves bug fixing the development performed in step 3.</td>
+								<td>~1 - 2 Hours</td>
+								<td class="alert alert-info">Moderate</td>
+							</tr>
+							<tr>
+								<td>5</td>
+								<td>DB Architecture, to be performed for each App to provide better DB solution and this helps in future enhancements.</td>
+								<td>~1 Hour</td>
+								<td class="alert alert-info">Moderate</td>
+							</tr>
+							<tr>
+								<td>6</td>
+								<td>Building Login interface and user authentication take around. Involves testing and creating a portability for all the webpages to access. Grouping users depending on Admin, superuser, customer admin and customer interface. This will change depending on additional requirements. One time job. Need to be calculated.</td>
+								<td>~20 hours(One time) </br>~ ½ hour(for each app)</td>
+								<td class="alert alert-danger">Complex</td>
+							</tr>
+							<tr>
+								<td>7</td>
+								<td>Once the primary login interface is used we need to port to each individual app and help each app to show only the required customer information. According to credentials.</td>
+								<td>~1 - 2 hours</td>
+								<td class="alert alert-success">Easy</td>
+							</tr>
+							<tr>
+								<td>8</td>
+								<td>Admin Console for each app. Administrator having different privileges can modify/add/delete data for each app. This depends on the application requirements and it’s complexity.</td>
+								<td>~2 - 4 hours</td>
+								<td class="alert alert-info">Moderate</td>
+							</tr>
+						</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="{% static "vfd_app/js/bootstrap.min.js" %}"></script>
+	<script src="{% static "vfd_app/js/raphael.min.js" %}"></script>
+	<script src="{% static "vfd_app/js/morris.min.js" %}"></script>
+	<script src="{% static "vfd_app/js/morris-data.js" %}"></script>
+
+</body>
+
+</html>

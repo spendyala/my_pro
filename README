@@ -1,0 +1,10 @@
+apt-get install sqlite3 libsqlite3-dev
+pip install pysqlite
+pip install django-angular
+
+django-admin startproject mini_project
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+
+python manage.py startapp client_app
