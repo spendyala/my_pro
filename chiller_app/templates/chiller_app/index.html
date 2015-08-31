@@ -9,6 +9,12 @@
 
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/bootstrap.min.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/bootstrap.min.css" %}">
+	<link rel="stylesheep" type="text/css" href="{% static "vfd_app/css/bootstrap-rtl.min.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/sb-admin.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/sb-admin-rtl.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/plugins/morris.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/plugins/font-awesome.min.cs" %}">
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -18,9 +24,28 @@
   </head>
 
   <body>
+	  <div id="wrapper">
+		  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			  <div class="navbar-header">
+				  <a class="navbar-brand" href="/">Home</a>
+				  <a class="navbar-brand" href="/clients">Clients</a>
+				  <a class="navbar-brand" href="/vfd_app">VFD App</a>
+				  <a class="navbar-brand" href="/premium_efficiency_app">Premium Efficiency App</a>
+				  <a class="navbar-brand" href="/chiller_app">Chiller App</a>
+			  </div>
+		  </nav>
+	  </div>
+	  <div id="page-wrapper">
 	<!-- Begin page content -->
-	<div class="container">
-
+	<div class="container-fluid">
+		<h1 class="page-header">
+			Chiller Application
+		</h1>
+		<div class="row">
+			<div class="col-lg-3 col-lg-offset-9">
+				<a href="/chiller_app/details/add/" class="btn btn-success">+ Chiller</a>
+			</div>
+		</div>
 	  {% if chiller_app_objs %}
 	  <div class="panel panel-info">
 		<div class="panel-heading">
@@ -44,6 +69,7 @@
 		  <p>No Chiller Apps are available.</p>
 	  {% endif %}
 	</div>
+	</div>
 
 	<footer class="footer">
 	  <div class="container-fluid">
@@ -53,6 +79,10 @@
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="{% static "vfd_app/js/bootstrap.min.js" %}"></script>
+	<script src="{% static "vfd_app/js/raphael.min.js" %}"></script>
+	<script src="{% static "vfd_app/js/morris.min.js" %}"></script>
+	<script src="{% static "vfd_app/js/morris-data.js" %}"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="{% static "vfd_app/js/bootstrap.min.js" %}"></script>
 

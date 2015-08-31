@@ -10,6 +10,11 @@
 
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/bootstrap.min.css" %}">
+	<link rel="stylesheep" type="text/css" href="{% static "vfd_app/css/bootstrap-rtl.min.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/sb-admin.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/sb-admin-rtl.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/plugins/morris.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "vfd_app/css/plugins/font-awesome.min.cs" %}">
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -20,6 +25,18 @@
 
   <body>
 	<!-- Begin page content -->
+	<div id="wrapper">
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">Home</a>
+				<a class="navbar-brand" href="/clients">Clients</a>
+				<a class="navbar-brand" href="/vfd_app">VFD App</a>
+				<a class="navbar-brand" href="/premium_efficiency_app">Premium Efficiency App</a>
+				<a class="navbar-brand" href="/chiller_app">Chiller App</a>
+			</div>
+		</nav>
+	</div>
+	<div id="page-wrapper">
 	<div class="container">
 	  {% if data %}
 	  <div class="row">
@@ -567,6 +584,7 @@
 		</div>
 	  {% endif %}
 	</div>
+	</div>
 
 	<footer class="footer">
 	  <div class="container-fluid">
@@ -578,6 +596,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="{% static "vfd_app/js/bootstrap.min.js" %}"></script>
+	<script src="{% static "vfd_app/js/raphael.min.js" %}"></script>
+	<script src="{% static "vfd_app/js/morris.min.js" %}"></script>
+	<script src="{% static "vfd_app/js/morris-data.js" %}"></script>
 	<script type="text/javascript">
 	  function setval() {
 		element = document.getElementById('save_text');

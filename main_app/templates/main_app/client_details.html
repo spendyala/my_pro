@@ -52,32 +52,41 @@
 							Client information is shown below.
 					</div>
 				</div>
-				{% if client_details %}
-					<form class="form-horizontal" action="/clients/details/{{client_details.id}}/" method="post" name="save_client_details">
-					<div class="container-fluid">
-						<div class="form-group form-group-sm">
-						  <label class="col-sm-4 control-label">Chiller Name</label>
-						  <div class="col-sm-4">
-							<input class="form-control" type="text" onchange="set_save_chiller_app()" name="chiller_name" value="{{chiller_details_obj.chiller_name}}">
-						  </div>
+				{% if client_id %}
+					{% if client_id == 'add' %}
+						<form class="form-horizontal" action="/client/details/add/" method="post" name="save_client_details">
+					{% else %}
+						<form class="form-horizontal" action="/client/details/{{client_id}}/" method="post" name="save_client_details">
+					{% endif %}
+					{% csrf_token %}
+						<div class="container-fluid">
+							<div class="form-group form-group-sm">
+							  <label class="col-sm-4 control-label">Client Name</label>
+							  <div class="col-sm-4">
+								<input class="form-control" type="text" onchange="set_save_client()" name="client_name" value="{{client_name}}">
+							  </div>
+							</div>
+							<div class="form-group form-group-sm">
+							  <label class="col-sm-4 control-label">Country</label>
+							  <div class="col-sm-6">
+								  <select onchange="set_save_client()" name="country" class="col-sm-6">
+									{% for id, name in country_dict %}
+									   <option {% if id == country %} selected {% endif %} value="{{id}}">{{ name }}</option>
+									{% endfor %}
+								  </select>
+							  </div>
+							</div>
+							<div class="form-group form-group-sm">
+							  <label class="col-sm-4 control-label">Site Location</label>
+							  <div class="col-sm-4">
+								<input class="form-control" type="text" onchange="set_save_client()" name="customer_site" value="{{customer_site}}">
+							  </div>
+							</div>
+
 						</div>
-						<table class="table table-striped">
-							<tr>
-								<th>Client Name</th>
-								<th>Country</th>
-								<th>Customer Site</th>
-								<th>Start Date</th>
-							</tr>
-							{% for client_name, country, customer_site, start_date in clients_list %}
-							<tr>
-								<td>{{client_name}}</td>
-								<td>{{country}}</td>
-								<td>{{customer_site}}</td>
-								<td>{{start_date}}</td>
-							</tr>
-							{% endfor %}
-						</table>
-					</div>
+							<input id="save_client_app" name="save_client_app" type="text" value="0" hidden/>
+							<input type="submit" value="Save" class="btn btn-default">
+					  </form>
 				{% else %}
 					<div class="col-md-12">
 						Please add clients
@@ -94,6 +103,13 @@
 	<script src="{% static "vfd_app/js/raphael.min.js" %}"></script>
 	<script src="{% static "vfd_app/js/morris.min.js" %}"></script>
 	<script src="{% static "vfd_app/js/morris-data.js" %}"></script>
+	<script type="text/javascript">
+	  function set_save_client() {
+		element = document.getElementById('save_client_app');
+		element.value = '1';
+	  }
+	</script>
+
 
 </body>
 
