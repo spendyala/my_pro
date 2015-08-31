@@ -19,7 +19,7 @@ from django.contrib import admin
 
 urlpatterns = [
 	url(r'^admin/', include(admin.site.urls)),
-	url(r'^(|/|(?P<app>clients/))/$', include('main_app.urls', namespace='main_app')),
+	url(r'^(|/|(?P<app>clients/)|client/details/(?P<client_id>([0-9]+|add))/)$', include('main_app.urls', namespace='main_app')),
 	# url(r'^(|/)$', include('main_app.urls', namespace='main_app')),
 	url(r'^vfd_app/', include('vfd_app.urls', namespace='vfd_app')),
 	url(r'^premium_efficiency_app/', include('premium_efficiency_app.urls', namespace='premium_efficiency_app')),

@@ -7,7 +7,7 @@ def index(request, app=None, client_id=None):
 
 	if app and 'clients' in app:
 		return clients(request)
-	if app and 'client' in app and 'details' in app:
+	if client_id:
 		return client_details(request, client_id)
 	context = {'test':'test'}
 	return render(request, 'main_app/index.html', context)
@@ -26,6 +26,6 @@ def client_details(request, client_id):
 	if client_id == 'add':
 		pass
 	country_dict = dict(ISO3166.ISO3166)
-	client_obj = Client.object.get(id=client_id)
+	client_obj = Client.objects.get(id=client_id)
 	context = {'client_details': client_obj}
 	return render(request, 'main_app/clients.html', context)
