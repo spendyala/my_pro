@@ -155,12 +155,28 @@ Easy to maintain, we can add additional resources like Main Memory (RAM), Harddi
 								<td class="alert alert-info">Moderate</td>
 							</tr>
 						</table>
+					<h2>Comments</h2>
+					<form class="form-horizontal" action="/comment/" method="post" name="save_comment">
+					{% csrf_token %}
+						<div class="container-fluid">
+							<div class="form-group form-group-sm">
+							  <div class="col-sm-11">
+								<input class="form-control" type="text" onchange="save_comment()" name="comment" value="{{comment}}">
+							  </div>
+							  <div class="col-sm-1">
+								<input type="submit" value="Save" class="btn btn-default">
+							  </div>
+							</div>
+						</div>
+						<input id="save_comment" name="save_comment" type="text" value="0" hidden/>
+					</form>
+					{% for each_comment in comments %}
+						<div class="well well-sm">{{each_comment.comment}}</div>
+					{% endfor %}
 				</div>
 			</div>
 		</div>
 	</div>
-
-
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -169,7 +185,12 @@ Easy to maintain, we can add additional resources like Main Memory (RAM), Harddi
 	<script src="{% static "vfd_app/js/raphael.min.js" %}"></script>
 	<script src="{% static "vfd_app/js/morris.min.js" %}"></script>
 	<script src="{% static "vfd_app/js/morris-data.js" %}"></script>
-
+	<script type="text/javascript">
+	  function save_comment() {
+		element = document.getElementById('save_comment');
+		element.value = '1';
+	  }
+	</script>
 </body>
 
 </html>

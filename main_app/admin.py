@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Client, Vfd
+from .models import Client, Vfd, Comments
 
 
 class ClientAdmin(admin.ModelAdmin):
@@ -30,3 +30,4 @@ class VfdAdmin(admin.ModelAdmin):
 
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Vfd, VfdAdmin)
+admin.site.register(Comments)

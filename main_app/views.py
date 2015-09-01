@@ -1,16 +1,27 @@
 from django.shortcuts import render, redirect
-from .models import Client, ISO3166
+from .models import Client, Comments, ISO3166
 
 import datetime
 
 # Create your views here.
-def index(request, app=None, client_id=None):
+def index(request, app=None, client_id=None, comment=None):
 	if app and 'clients' in app:
 		return clients(request)
 	if client_id:
 		return client_details(request, client_id)
-	context = {'test':'test'}
+	if comment:
+		save_comment(request)
+	comments = Comments.objects.all()
+	context = {'comments': comments}
 	return render(request, 'main_app/index.html', context)
+
+
+def save_comment(request):
+	comment = Comments()
+	x = request.POST['comment'].strip()
+	if x:
+		comment.comment = x
+		comment.save()
 
 
 def clients(request):

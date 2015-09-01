@@ -36,3 +36,7 @@ class Vfd(models.Model):
 	recent_install.admin_order_field = 'vfd_install_date'
 	recent_install.boolean = True
 	recent_install.short_description = 'Recently Added?'
+
+
+class Comments(models.Model):
+	comment = models.TextField('Comments', max_length=500)
