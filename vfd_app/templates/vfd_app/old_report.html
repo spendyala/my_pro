@@ -140,43 +140,57 @@
 
 		  <div class="panel panel-info">
 			<div class="panel-heading">
-			  Standard Maximum Hours Of Operation
+			  Existing Motor Montly Usage
 			</div>
 			<div class="panel-body">
 
 				{% if data %}
 				<table class="table table-striped">
+				  {% if data.table_header %}
 					<tr>
-						<th>JAN</th>
-						<th>FEB</th>
-						<th>MAR</th>
-						<th>APR</th>
-						<th>MAY</th>
-						<th>JUN</th>
-						<th>JUL</th>
-						<th>AUG</th>
-						<th>SEP</th>
-						<th>OCT</th>
-						<th>NOV</th>
-						<th>DEC</th>
+						<th>{{ data.existing_motor_header.speed }}</th>
+						<th>{{ data.existing_motor_header.jan }}</th>
+						<th>{{ data.existing_motor_header.feb }}</th>
+						<th>{{ data.existing_motor_header.mar }}</th>
+						<th>{{ data.existing_motor_header.apr }}</th>
+						<th>{{ data.existing_motor_header.may }}</th>
+						<th>{{ data.existing_motor_header.jun }}</th>
+						<th>{{ data.existing_motor_header.jul }}</th>
+						<th>{{ data.existing_motor_header.aug }}</th>
+						<th>{{ data.existing_motor_header.sep }}</th>
+						<th>{{ data.existing_motor_header.oct }}</th>
+						<th>{{ data.existing_motor_header.nov }}</th>
+						<th>{{ data.existing_motor_header.dec }}</th>
+						<th>Total hours of operation</th>
+						<th>Existing Motor kWh</th>
+						<th>Cost</th>
 					</tr>
+				  {% if data.existing_motor_body %}
+					{% for each_body_data in data.existing_motor_body %}
 					<tr>
-						<td><input disabled class="form-control input-sm" value="744"/></td>
-						<td><input disabled class="form-control input-sm" value="672"/></td>
-						<td><input disabled class="form-control input-sm" value="744"/></td>
-						<td><input disabled class="form-control input-sm" value="720"/></td>
-						<td><input disabled class="form-control input-sm" value="744"/></td>
-						<td><input disabled class="form-control input-sm" value="720"/></td>
-						<td><input disabled class="form-control input-sm" value="744"/></td>
-						<td><input disabled class="form-control input-sm" value="744"/></td>
-						<td><input disabled class="form-control input-sm" value="720"/></td>
-						<td><input disabled class="form-control input-sm" value="744"/></td>
-						<td><input disabled class="form-control input-sm" value="720"/></td>
-						<td><input disabled class="form-control input-sm" value="744"/></td>
+						<td class="input-sm"> {{ each_body_data.speed }}%</th>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.jan }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.feb }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.mar }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.apr }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.may }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.jun }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.jul }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.aug }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.sep }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.oct }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.nov }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ each_body_data.dec }}"/></td>
+						<td class="text-right">{{ each_body_data.total_hours_of_operation }}</td>
+						<td class="text-right">{{ each_body_data.existing_kwh }}</td>
+						<td class="text-right">${{ each_body_data.cost }}</td>
 					</tr>
+					{% endfor %}
+				  {% endif %}
 				{% endif %}
 				</table>
 
+				{% endif %}
 			</div>
 		  </div>
 
@@ -186,104 +200,73 @@
 			</div>
 			<div class="panel-body">
 
+				{% if data %}
 				<table class="table table-striped">
+				  {% if data.table_header %}
 					<tr>
-						<th>JAN</th>
-						<th>FEB</th>
-						<th>MAR</th>
-						<th>APR</th>
-						<th>MAY</th>
-						<th>JUN</th>
-						<th>JUL</th>
-						<th>AUG</th>
-						<th>SEP</th>
-						<th>OCT</th>
-						<th>NOV</th>
-						<th>DEC</th>
+						<th>{{ data.table_header.speed }}</th>
+						<th>{{ data.table_header.jan }}</th>
+						<th>{{ data.table_header.feb }}</th>
+						<th>{{ data.table_header.mar }}</th>
+						<th>{{ data.table_header.apr }}</th>
+						<th>{{ data.table_header.may }}</th>
+						<th>{{ data.table_header.jun }}</th>
+						<th>{{ data.table_header.jul }}</th>
+						<th>{{ data.table_header.aug }}</th>
+						<th>{{ data.table_header.sep }}</th>
+						<th>{{ data.table_header.oct }}</th>
+						<th>{{ data.table_header.nov }}</th>
+						<th>{{ data.table_header.dec }}</th>
+						<th>Total hours of operation</th>
+						<th>Proposed VFD kWh</th>
+						<th>Cost</th>
 					</tr>
+				  {% if data.table_body %}
+					{% for each_body_data in data.table_body %}
 					<tr>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_jan" value="{{ data.proposed_jan }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_feb" value="{{ data.proposed_feb }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_mar" value="{{ data.proposed_mar }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_apr" value="{{ data.proposed_apr }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_may" value="{{ data.proposed_may }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_jun" value="{{ data.proposed_jun }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_jul" value="{{ data.proposed_jul }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_aug" value="{{ data.proposed_aug }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_sep" value="{{ data.proposed_sep }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_oct" value="{{ data.proposed_oct }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_nov" value="{{ data.proposed_nov }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_dec" value="{{ data.proposed_dec }}"/></td>
+						<td class="input-sm"> {{ each_body_data.speed }} %</th>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_jan" value="{{ each_body_data.jan }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_feb" value="{{ each_body_data.feb }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_mar" value="{{ each_body_data.mar }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_apr" value="{{ each_body_data.apr }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_may" value="{{ each_body_data.may }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_jun" value="{{ each_body_data.jun }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_jul" value="{{ each_body_data.jul }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_aug" value="{{ each_body_data.aug }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_sep" value="{{ each_body_data.sep }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_oct" value="{{ each_body_data.oct }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_nov" value="{{ each_body_data.nov }}"/></td>
+						<td><input onchange="setval()" class="form-control input-sm" name="{{each_body_data.speed}}_dec" value="{{ each_body_data.dec }}"/></td>
+						<td class="text-right">{{ each_body_data.total_hours_of_operation }}</td>
+						<td class="text-right">{{ each_body_data.proposed_vfd_kwh }}</td>
+						<td class="text-right">{{ each_body_data.cost }}</td>
 					</tr>
+					{% endfor %}
+					<tr>
+						<td class="input-sm"> {{ data.table_footer.speed }}</th>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.jan }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.feb }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.mar }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.apr }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.may }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.jun }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.jul }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.aug }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.sep }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.oct }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.nov }}"/></td>
+						<td><input disabled class="form-control input-sm" value="{{ data.table_footer.dec }}"/></td>
+						<th class="text-right">{{ data.table_footer.total_hours_of_operation }}</th>
+						<th class="text-right">{{ data.table_footer.total_proposed_vfd_kwh }}</th>
+						<th class="text-right">{{ data.table_footer.total_proposed_cost }}</th>
+					</tr>
+				  {% endif %}
+				{% endif %}
 				</table>
-				<div class="form-group form-group-sm">
-				  <label class="col-sm-2 col-sm-offset-9 control-label">Total hours</label>
-				  <label class="col-sm-1 bg-success control-label">{{data.total_hours}}</label>
-				</div>
-				<div class="form-group form-group-sm">
-				  <label class="col-sm-5 col-sm-offset-6 control-label">Total Operating kWh For Existing Motor:</label>
-				  <label class="col-sm-1 bg-success control-label">{{data.total_existing_kwh}}</label>
-				</div>
-				<div class="form-group form-group-sm">
-				  <label class="col-sm-5 col-sm-offset-6 control-label">Total Operating Cost For Existing Motor:</label>
-				  <label class="col-sm-1 bg-success control-label">${{data.total_existing_cost_of_operation}}</label>
-				</div>
+
+				{% endif %}
 			</div>
 		  </div>
-
-		  <div class="panel panel-info">
-		  <div class="panel-heading">
-			Proposed VFD - Speed Setpoint Ranges
-		  </div>
-		  <div class="panel-body">
-
-			  <table class="table table-striped">
-				  <tr>
-					  <th>Setpoint Selection(s)</th>
-					  <th>VFD Speed</th>
-					  <th>% Of Time</th>
-					  <th>kWh</th>
-					  <th>Cost</th>
-				  </tr>
-				  <tr>
-					  <td class="input-sm">1</th>
-					  <td><input class="form-control input-sm" onchange="save_setpoints()" name="1_vfd_speed" value="{{ data.1_vfd_speed }}"/></td>
-					  <td><input class="form-control input-sm" onchange="save_setpoints()" name="1_percent_of_time" value="{{ data.1_percent_of_time }}"/></td>
-					  <td><label class="col-sm-12 bg-success control-label">{{data.1_proposed_kwh}}</label></td>
-					  <td><label class="col-sm-12 bg-success control-label">${{data.1_proposed_cost}}</label></td>
-				  </tr>
-				  <tr>
-					  <td class="input-sm">2</th>
-					  <td><input class="form-control input-sm" onchange="save_setpoints()" name="2_vfd_speed" value="{{ data.2_vfd_speed }}"/></td>
-					  <td><input class="form-control input-sm" onchange="save_setpoints()" name="2_percent_of_time" value="{{ data.2_percent_of_time }}"/></td>
-					  <td><label class="col-sm-12 bg-success control-label">{{data.2_proposed_kwh}}</label></td>
-					  <td><label class="col-sm-12 bg-success control-label">${{data.2_proposed_cost}}</label></td>
-				  </tr>
-				  <tr>
-					  <td class="input-sm">3</th>
-					  <td><input onchange="save_setpoints()" class="form-control input-sm" name="3_vfd_speed" value="{{ data.3_vfd_speed }}"/></td>
-					  <td><input onchange="save_setpoints()" class="form-control input-sm" name="3_percent_of_time" value="{{ data.3_percent_of_time }}"/></td>
-					  <td><label class="col-sm-12 bg-success control-label">{{data.3_proposed_kwh}}</label></td>
-					  <td><label class="col-sm-12 bg-success control-label">${{data.3_proposed_cost}}</label></td>
-				  </tr>
-				  <tr>
-					  <td class="input-sm">4</th>
-					  <td><input onchange="save_setpoints()" class="form-control input-sm" name="4_vfd_speed" value="{{ data.4_vfd_speed }}"/></td>
-					  <td><input onchange="save_setpoints()" class="form-control input-sm" name="4_percent_of_time" value="{{ data.4_percent_of_time }}"/></td>
-					  <td><label class="col-sm-12 bg-success control-label">{{data.4_proposed_kwh}}</label></td>
-					  <td><label class="col-sm-12 bg-success control-label">${{data.4_proposed_cost}}</label></td>
-				  </tr>
-				  <tr>
-					  <td class="input-sm"></th>
-					  <td></td>
-					  <td class="control-label">Totals</td>
-					  <td><label class="col-sm-12 bg-success control-label">{{data.total_proposed_vfd_kwh}}</label></td>
-					  <td><label class="col-sm-12 bg-success control-label">${{data.total_proposed_cost}}</label></td>
-				  </tr>
-			  </table>
-
-		  </div>
-		</div>
 
 		  <div class="panel panel-info">
 			<div class="panel-heading">
@@ -294,11 +277,11 @@
 				<div class="col-md-4">
 				  <div class="input-group">
 					<span class="input-group-addon">Existing Total kWh</span>
-					<input disabled type="text" class="form-control text-right" id="inputGroupSuccess2" value="{{ data.total_existing_kwh }}">
+					<input disabled type="text" class="form-control text-right" id="inputGroupSuccess2" value="{{ data.existing_kwh }}">
 				  </div>
 				  <div class="input-group">
 					<span class="input-group-addon">Existing Total Cost</span>
-					<input disabled type="text" class="form-control text-right" id="inputGroupSuccess2" value="${{ data.total_existing_cost_of_operation }}">
+					<input disabled type="text" class="form-control text-right" id="inputGroupSuccess2" value="${{ data.existing_cost }}">
 				  </div>
 				</div>
 				<div class="col-md-4">
@@ -592,8 +575,6 @@
 		  <input id="save_text" name="save_text" type="text" value="0" hidden/>
 		  <input id="save_material" name="save_material" type="text" value="0" hidden/>
 		  <input id="save_labor" name="save_labor" type="text" value="0" hidden/>
-		  <input id="save_monthly_hour" name="save_monthly_hour" type="text" value="0" hidden/>
-		  <input id="save_setpoints" name="save_setpoints" type="text" value="0" hidden/>
 		  <input type="submit" value="Save" class="btn btn-default">
 		</form>
 
@@ -621,14 +602,6 @@
 	<script type="text/javascript">
 	  function setval() {
 		element = document.getElementById('save_text');
-		element.value = '1'
-	  }
-	  function setmonthlyhour() {
-		element = document.getElementById('save_monthly_hour');
-		element.value = '1'
-	  }
-	  function save_setpoints() {
-		element = document.getElementById('save_setpoints');
 		element.value = '1'
 	  }
 	  function setaddmaterial() {
