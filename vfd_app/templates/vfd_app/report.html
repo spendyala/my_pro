@@ -247,29 +247,29 @@
 				  </tr>
 				  <tr>
 					  <td class="input-sm">1</th>
-					  <td><input class="form-control input-sm" onchange="save_setpoints()" name="1_vfd_speed" value="{{ data.1_vfd_speed }}"/></td>
-					  <td><input class="form-control input-sm" onchange="save_setpoints()" name="1_percent_of_time" value="{{ data.1_percent_of_time }}"/></td>
+					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="1_vfd_speed" value="{{ data.1_vfd_speed }}"/></td>
+					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="1_percent_of_time" value="{{ data.1_percent_of_time }}"/></td>
 					  <td><label class="col-sm-12 bg-success control-label">{{data.1_proposed_kwh}}</label></td>
 					  <td><label class="col-sm-12 bg-success control-label">${{data.1_proposed_cost}}</label></td>
 				  </tr>
 				  <tr>
 					  <td class="input-sm">2</th>
-					  <td><input class="form-control input-sm" onchange="save_setpoints()" name="2_vfd_speed" value="{{ data.2_vfd_speed }}"/></td>
-					  <td><input class="form-control input-sm" onchange="save_setpoints()" name="2_percent_of_time" value="{{ data.2_percent_of_time }}"/></td>
+					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="2_vfd_speed" value="{{ data.2_vfd_speed }}"/></td>
+					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="2_percent_of_time" value="{{ data.2_percent_of_time }}"/></td>
 					  <td><label class="col-sm-12 bg-success control-label">{{data.2_proposed_kwh}}</label></td>
 					  <td><label class="col-sm-12 bg-success control-label">${{data.2_proposed_cost}}</label></td>
 				  </tr>
 				  <tr>
 					  <td class="input-sm">3</th>
-					  <td><input onchange="save_setpoints()" class="form-control input-sm" name="3_vfd_speed" value="{{ data.3_vfd_speed }}"/></td>
-					  <td><input onchange="save_setpoints()" class="form-control input-sm" name="3_percent_of_time" value="{{ data.3_percent_of_time }}"/></td>
+					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="3_vfd_speed" value="{{ data.3_vfd_speed }}"/></td>
+					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="3_percent_of_time" value="{{ data.3_percent_of_time }}"/></td>
 					  <td><label class="col-sm-12 bg-success control-label">{{data.3_proposed_kwh}}</label></td>
 					  <td><label class="col-sm-12 bg-success control-label">${{data.3_proposed_cost}}</label></td>
 				  </tr>
 				  <tr>
 					  <td class="input-sm">4</th>
-					  <td><input onchange="save_setpoints()" class="form-control input-sm" name="4_vfd_speed" value="{{ data.4_vfd_speed }}"/></td>
-					  <td><input onchange="save_setpoints()" class="form-control input-sm" name="4_percent_of_time" value="{{ data.4_percent_of_time }}"/></td>
+					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="4_vfd_speed" value="{{ data.4_vfd_speed }}"/></td>
+					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="4_percent_of_time" value="{{ data.4_percent_of_time }}"/></td>
 					  <td><label class="col-sm-12 bg-success control-label">{{data.4_proposed_kwh}}</label></td>
 					  <td><label class="col-sm-12 bg-success control-label">${{data.4_proposed_cost}}</label></td>
 				  </tr>
@@ -621,23 +621,24 @@
 	<script type="text/javascript">
 	  function setval() {
 		element = document.getElementById('save_text');
-		element.value = '1'
+		element.value = '1';
 	  }
 	  function setmonthlyhour() {
 		element = document.getElementById('save_monthly_hour');
-		element.value = '1'
+		element.value = '1';
 	  }
-	  function save_setpoints() {
+	  function savesetpoints() {
 		element = document.getElementById('save_setpoints');
-		element.value = '1'
+		element.value = '1';
+
 	  }
 	  function setaddmaterial() {
 		element = document.getElementById('save_material');
-		element.value = '1'
+		element.value = '1';
 	  }
 	  function setaddlabor() {
 		element = document.getElementById('save_labor');
-		element.value = '1'
+		element.value = '1';
 	  }
 	</script>
 

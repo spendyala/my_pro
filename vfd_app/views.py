@@ -29,79 +29,6 @@ def index(request):
 	return render(request, 'vfd_app/index.html', context)
 
 
-class Client_VFD_View(object):
-	def __init__(self,
-				 client_name=None,
-				 vfd_actual_name=None,
-				 vfd_name=None,
-				 cost_per_kwh=0,
-				 installed_date=None,
-				 motor_horse_pwr=None,
-				 existing_motor_efficiency=None,
-				 proposed_vfd_efficiency=None,
-				 motor_load=None,
-				 monthly_usage=None,
-				 monthly_usage_dict=None,
-				 vfd_set_point=None):
-		self.client_name = client_name
-		self.vfd_actual_name = vfd_actual_name
-		self.vfd_name = vfd_name
-		self.cost_per_kwh = cost_per_kwh
-		self.installed_date = installed_date
-		self.motor_horse_pwr = motor_horse_pwr
-		self.existing_motor_efficiency = existing_motor_efficiency
-		self.proposed_vfd_efficiency = proposed_vfd_efficiency
-		self.motor_load = motor_load
-		self.vfd_set_point = float(vfd_set_point)
-		self.monthly_usage = monthly_usage
-		self.monthly_usage_dict = monthly_usage_dict
-		self.total_hours_of_operation()
-		self.total_kwh()
-		self.total_cost()
-		self.proposed_vfd_kwh()
-		self.vfd_belt_kwh()
-
-	def total_hours_of_operation(self):
-		self.total_hours_of_operation = sum(
-			[x.hours_of_operation for x in self.monthly_usage])
-
-	def total_kwh(self):
-		try:
-			val = float(1.0/self.existing_motor_efficiency)
-			self.total_kwh = self.motor_horse_pwr * val
-			self.total_kwh *= self.motor_load
-			self.total_kwh *= 0.746
-			self.total_kwh *= self.total_hours_of_operation
-			self.total_kwh = int(round(self.total_kwh))
-		except Exception as exception:
-			self.total_kwh = 0
-
-	def total_cost(self):
-		self.total_cost = int(round(self.total_kwh * self.cost_per_kwh))
-
-	def proposed_vfd_kwh(self):
-		try:
-			val_1 = float(1.0/self.existing_motor_efficiency)
-			val_2 = float(1.0/self.proposed_vfd_efficiency)
-			self.proposed_vfd_kwh = self.total_hours_of_operation
-			self.proposed_vfd_kwh *= self.vfd_set_point
-			self.proposed_vfd_kwh = int(round(self.proposed_vfd_kwh/100))
-			self.proposed_vfd_kwh *= self.vfd_set_point
-			self.proposed_vfd_kwh = int(round(self.proposed_vfd_kwh/100))
-			self.proposed_vfd_kwh *= self.vfd_set_point
-			self.proposed_vfd_kwh *= self.motor_horse_pwr
-			self.proposed_vfd_kwh *= float(val_1 * val_2) * 0.746
-			self.proposed_vfd_kwh *= self.motor_load
-			self.proposed_vfd_kwh = int(round(self.proposed_vfd_kwh))
-		except Exception as exception:
-			self.proposed_vfd_kwh = 0
-
-	def vfd_belt_kwh(self):
-		self.vfd_belt_kwh = int(round(self.proposed_vfd_kwh *
-									  self.cost_per_kwh))
-
-
-
 def detail(request, client_vfd_id, vfd_set_point):
 	context = {'client_vfd_view': get_client_vfd_view_obj(client_vfd_id,
 														  vfd_set_point)}
@@ -127,8 +54,6 @@ def save_data(request, client_vfd_id):
 
 
 def save_monthly_hour(request, client_vfd_id):
-	import pdb; pdb.set_trace()
-
 	client_vfd_obj = Client_Vfd_Motor.objects.get(id=client_vfd_id)
 	for each_month in MONTHS_ORDER:
 		monthly_val = request.POST['proposed_%s' % (each_month.lower(),)].strip()
@@ -142,14 +67,12 @@ def save_monthly_hour(request, client_vfd_id):
 		monthly_obj.save()
 
 def save_setpoints(request, client_vfd_id):
-	import pdb; pdb.set_trace()
-
 	client_vfd_obj = Client_Vfd_Motor.objects.get(id=client_vfd_id)
 	for each_setpoint in [1, 2, 3, 4]:
 		set_point_obj, create_flag = Client_Vfd_Motor_Setpoint_Selections.objects.get_or_create(client_vfd=client_vfd_obj,
 			select_point=each_setpoint)
-		set_point_obj.speed_percent = request.POST['%s_vfd_speed' % (each_setpoint,)]
-		set_point_obj.percent_of_time = request.POST['%s_percent_of_time' % (each_setpoint,)]
+		set_point_obj.speed_percent = request.POST['%s_vfd_speed' % (each_setpoint,)].strip() or 0
+		set_point_obj.percent_of_time = request.POST['%s_percent_of_time' % (each_setpoint,)].strip() or 0
 		set_point_obj.save()
 
 
@@ -265,7 +188,6 @@ def report(request, client_vfd_id):
 	total_proposed_cost = 0
 	data = {}
 
-	import pdb; pdb.set_trace()
 
 	client_vfd_obj = Client_Vfd_Motor.objects.get(id=client_vfd_id)
 
@@ -291,10 +213,18 @@ def report(request, client_vfd_id):
 		data['proposed_%s' % (each_month_info.month.lower())] = each_month_info.hours_of_operation
 		data['total_hours'] += each_month_info.hours_of_operation
 
-	data['total_existing_kwh'] = round(data['total_hours'] *
-									   client_vfd_obj.motor_horse_pwr *
-									   0.746 * existing_motor_efficiency_calculated *
-									   client_vfd_obj.motor_load, 2)
+
+	try:
+		val = float(1.0/client_vfd_obj.existing_motor_efficiency)
+		total_kwh = client_vfd_obj.motor_horse_pwr * val
+		total_kwh *= client_vfd_obj.motor_load
+		total_kwh *= 0.746
+		total_kwh *= data['total_hours']
+		total_kwh = round(total_kwh, 2)
+	except Exception as exception:
+		total_kwh = 0
+
+	data['total_existing_kwh'] = total_kwh
 	data['total_existing_cost_of_operation'] = round(data['total_existing_kwh'] * client_vfd_obj.cost_per_kwh, 2)
 
 	setpoint_selections = Client_Vfd_Motor_Setpoint_Selections.objects.filter(client_vfd=client_vfd_obj)
@@ -305,15 +235,24 @@ def report(request, client_vfd_id):
 		counter = each_setpoint.select_point
 		data['%s_vfd_speed' % (counter,)] = each_setpoint.speed_percent
 		data['%s_percent_of_time' % (counter,)] = each_setpoint.percent_of_time
-		data['%s_proposed_kwh' % (counter,)] = round(data['total_hours'] *
-													 each_setpoint.percent_of_time *
-													 client_vfd_obj.motor_horse_pwr *
-													 0.746 * each_setpoint.speed_percent *
-													 each_setpoint.speed_percent *
-													 each_setpoint.speed_percent *
-													 vfd_proposed_calculated *
-													 client_vfd_obj.motor_load / 100000000, 2)
-		data['%s_proposed_cost' % (counter,)] = round(data['%s_proposed_kwh' % (counter,)] *
+		try:
+			val_2 = float(1.0/client_vfd_obj.proposed_vfd_efficiency)
+			proposed_vfd_kwh = data['total_hours']
+			proposed_vfd_kwh *= each_setpoint.percent_of_time
+			proposed_vfd_kwh = round(proposed_vfd_kwh/100.0, 2)
+			proposed_vfd_kwh *= each_setpoint.speed_percent
+			proposed_vfd_kwh = round(proposed_vfd_kwh/100.0, 2)
+			proposed_vfd_kwh *= each_setpoint.speed_percent
+			proposed_vfd_kwh = round(proposed_vfd_kwh/100.0, 2)
+			proposed_vfd_kwh *= each_setpoint.speed_percent
+			proposed_vfd_kwh *= client_vfd_obj.motor_horse_pwr
+			proposed_vfd_kwh *= val_2 * 0.746
+			proposed_vfd_kwh *= client_vfd_obj.motor_load
+			proposed_vfd_kwh = round(proposed_vfd_kwh/100.0, 2)
+		except Exception as exception:
+			proposed_vfd_kwh = 0
+		data['%s_proposed_kwh' % (counter,)] = proposed_vfd_kwh
+		data['%s_proposed_cost' % (counter,)] = round(proposed_vfd_kwh *
 													  client_vfd_obj.cost_per_kwh, 2)
 		data['total_proposed_cost'] += data['%s_proposed_cost' % (counter,)]
 		data['total_proposed_vfd_kwh'] += data['%s_proposed_kwh' % (counter,)]
@@ -321,7 +260,5 @@ def report(request, client_vfd_id):
 	data['annual_kwh_savings'] = data['total_existing_kwh'] - data['total_proposed_vfd_kwh']
 	data['annual_cost_savings'] = data['total_existing_cost_of_operation'] - data['total_proposed_cost']
 
-	import pprint
-	pprint.pprint(data)
 	context = {'data': data}
 	return render(request, 'vfd_app/report.html', context)
