@@ -39,8 +39,11 @@ INSTALLED_APPS = (
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'djangular',
+	'rest_framework',
+	# My Apps
 	'main_app',
 	'vfd_app',
+	# 'test_angular',               # Test Application
 	'premium_efficiency_app',
 	'chiller_app'
 )
@@ -115,3 +118,10 @@ MEDIA_URL = '/'
 STATICFILES_DIRS = (
 	os.path.join(BASE_DIR, 'static'),
 )
+
+
+# Authentication
+# AUTH_USER_MODEL = 'test_angular.User'
+
+# !!!!!This is for demonstration only!!!!!
+# AUTHENTICATION_BACKENDS = ['test_angular.api.auth.AlwaysRootBackend']

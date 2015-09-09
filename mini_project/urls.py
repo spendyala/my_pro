@@ -23,5 +23,6 @@ urlpatterns = [
 	# url(r'^(|/)$', include('main_app.urls', namespace='main_app')),
 	url(r'^vfd_app/', include('vfd_app.urls', namespace='vfd_app')),
 	url(r'^premium_efficiency_app/', include('premium_efficiency_app.urls', namespace='premium_efficiency_app')),
-	url(r'^chiller_app/', include('chiller_app.urls', namespace='permium_efficiency_app'))
+	url(r'^chiller_app/', include('chiller_app.urls', namespace='permium_efficiency_app')),
+	# url(r'^test_angular/', include('test_angular.urls')),
 ]
