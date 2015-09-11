@@ -7,6 +7,8 @@ from .permissions import PostAuthorCanEditPermission
 
 
 class UserList(generics.ListAPIView):
+	import pdb; pdb.set_trace()
+
 	model = User
 	serializer_class = UserSerializer
 	permission_classes = [

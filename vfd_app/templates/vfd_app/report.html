@@ -39,42 +39,57 @@
 	<div id="page-wrapper">
 	<div class="container">
 	  {% if data %}
-	  <div class="row">
-		<div class="col-md-4">
-		  <div class="panel panel-info">
-			<div class="panel-heading">
-			  VFD Actual Name
-			</div>
-			<div class="panel-body">
-			  {{ data.vfd_actual_name }}
-			</div>
-		  </div>
-		</div>
-		<div class="col-md-4">
-		  <div class="panel panel-info">
-			<div class="panel-heading">
-			  Installed Date
-			</div>
-			<div class="panel-body">
-			  {{ data.installed_date }}
-			</div>
-		  </div>
-		</div>
-		<div class="col-md-4">
-		  <div class="panel panel-info">
-			<div class="panel-heading">
-			  Client Name
-			</div>
-			<div class="panel-body">
-			  {{ data.client_name }}
-			</div>
-		  </div>
-		</div>
-	  </div>
-
-
 		<form class="form-horizontal" action="/vfd_app/report/{{ data.client_vfd_id }}/" method="post" name="save_vfd_details">
 		  {% csrf_token %}
+		  <div class="row">
+			<div class="col-md-4">
+			  <div class="panel panel-info">
+				<div class="panel-heading">
+				  VFD Actual Name
+				</div>
+				<div class="panel-body">
+				{% if not data.create_new_vfd %}
+					{{ data.vfd_actual_name }}
+				{% else %}
+					<select onchange="create_vfd_app()" name="new_vfd_obj" class="col-sm-5">
+					  {% for vfd_key, vfd_value in data.new_vfd_objs %}
+							  <option value="{{vfd_key}}">{{ vfd_value }}</option>
+					  {% endfor %}
+					</select>
+				{% endif %}
+				</div>
+			  </div>
+			</div>
+			<div class="col-md-4">
+			  <div class="panel panel-info">
+				<div class="panel-heading">
+				  Installed Date
+				</div>
+				<div class="panel-body">
+				  {{ data.installed_date }}
+				</div>
+			  </div>
+			</div>
+			<div class="col-md-4">
+			  <div class="panel panel-info">
+				<div class="panel-heading">
+				  Client Name
+				</div>
+				<div class="panel-body">
+				{% if not data.create_new_vfd %}
+					{{ data.client_name }}
+				{% else %}
+					<select onchange="create_vfd_app()" name="new_client_obj" class="col-sm-5">
+					  {% for client_key, client_value in data.new_client_objs %}
+							  <option value="{{client_key}}">{{ client_value }}</option>
+					  {% endfor %}
+					</select>
+				{% endif %}
+				</div>
+			  </div>
+			</div>
+		  </div>
+
 		  <div class="row">
 			<div class="col-md-2">
 			  <div class="panel panel-info">
@@ -202,18 +217,18 @@
 						<th>DEC</th>
 					</tr>
 					<tr>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_jan" value="{{ data.proposed_jan }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_feb" value="{{ data.proposed_feb }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_mar" value="{{ data.proposed_mar }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_apr" value="{{ data.proposed_apr }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_may" value="{{ data.proposed_may }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_jun" value="{{ data.proposed_jun }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_jul" value="{{ data.proposed_jul }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_aug" value="{{ data.proposed_aug }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_sep" value="{{ data.proposed_sep }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_oct" value="{{ data.proposed_oct }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_nov" value="{{ data.proposed_nov }}"/></td>
-						<td><input onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_dec" value="{{ data.proposed_dec }}"/></td>
+						<td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_jan" value="{{ data.proposed_jan }}"/></td>
+						<td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_feb" value="{{ data.proposed_feb }}"/></td>
+						<td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_mar" value="{{ data.proposed_mar }}"/></td>
+						<td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_apr" value="{{ data.proposed_apr }}"/></td>
+						<td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_may" value="{{ data.proposed_may }}"/></td>
+						<td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_jun" value="{{ data.proposed_jun }}"/></td>
+						<td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_jul" value="{{ data.proposed_jul }}"/></td>
+						<td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_aug" value="{{ data.proposed_aug }}"/></td>
+						<td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_sep" value="{{ data.proposed_sep }}"/></td>
+						<td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_oct" value="{{ data.proposed_oct }}"/></td>
+						<td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_nov" value="{{ data.proposed_nov }}"/></td>
+						<td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="setmonthlyhour()" class="form-control input-sm" name="proposed_dec" value="{{ data.proposed_dec }}"/></td>
 					</tr>
 				</table>
 				<div class="form-group form-group-sm">
@@ -247,29 +262,29 @@
 				  </tr>
 				  <tr>
 					  <td class="input-sm">1</th>
-					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="1_vfd_speed" value="{{ data.1_vfd_speed }}"/></td>
-					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="1_percent_of_time" value="{{ data.1_percent_of_time }}"/></td>
+					  <td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="savesetpoints()" class="form-control input-sm" name="1_vfd_speed" value="{{ data.1_vfd_speed }}"/></td>
+					  <td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="savesetpoints()" class="form-control input-sm" name="1_percent_of_time" value="{{ data.1_percent_of_time }}"/></td>
 					  <td><label class="col-sm-12 bg-success control-label">{{data.1_proposed_kwh}}</label></td>
 					  <td><label class="col-sm-12 bg-success control-label">${{data.1_proposed_cost}}</label></td>
 				  </tr>
 				  <tr>
 					  <td class="input-sm">2</th>
-					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="2_vfd_speed" value="{{ data.2_vfd_speed }}"/></td>
-					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="2_percent_of_time" value="{{ data.2_percent_of_time }}"/></td>
+					  <td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="savesetpoints()" class="form-control input-sm" name="2_vfd_speed" value="{{ data.2_vfd_speed }}"/></td>
+					  <td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="savesetpoints()" class="form-control input-sm" name="2_percent_of_time" value="{{ data.2_percent_of_time }}"/></td>
 					  <td><label class="col-sm-12 bg-success control-label">{{data.2_proposed_kwh}}</label></td>
 					  <td><label class="col-sm-12 bg-success control-label">${{data.2_proposed_cost}}</label></td>
 				  </tr>
 				  <tr>
 					  <td class="input-sm">3</th>
-					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="3_vfd_speed" value="{{ data.3_vfd_speed }}"/></td>
-					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="3_percent_of_time" value="{{ data.3_percent_of_time }}"/></td>
+					  <td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="savesetpoints()" class="form-control input-sm" name="3_vfd_speed" value="{{ data.3_vfd_speed }}"/></td>
+					  <td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="savesetpoints()" class="form-control input-sm" name="3_percent_of_time" value="{{ data.3_percent_of_time }}"/></td>
 					  <td><label class="col-sm-12 bg-success control-label">{{data.3_proposed_kwh}}</label></td>
 					  <td><label class="col-sm-12 bg-success control-label">${{data.3_proposed_cost}}</label></td>
 				  </tr>
 				  <tr>
 					  <td class="input-sm">4</th>
-					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="4_vfd_speed" value="{{ data.4_vfd_speed }}"/></td>
-					  <td><input onchange="savesetpoints()" class="form-control input-sm" name="4_percent_of_time" value="{{ data.4_percent_of_time }}"/></td>
+					  <td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="savesetpoints()" class="form-control input-sm" name="4_vfd_speed" value="{{ data.4_vfd_speed }}"/></td>
+					  <td><input {% if data.create_new_vfd %}disabled{% endif %} onchange="savesetpoints()" class="form-control input-sm" name="4_percent_of_time" value="{{ data.4_percent_of_time }}"/></td>
 					  <td><label class="col-sm-12 bg-success control-label">{{data.4_proposed_kwh}}</label></td>
 					  <td><label class="col-sm-12 bg-success control-label">${{data.4_proposed_cost}}</label></td>
 				  </tr>
@@ -334,7 +349,7 @@
 				  Materials Pricing
 				</div>
 				<div class="col-md-6 text-right">
-				  <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">+</button>
+				  <button {% if data.create_new_vfd %}disabled{% endif %} type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">+</button>
 				  <!-- Modal -->
 				  <div class="modal fade" id="myModal" role="dialog">
 					<div class="modal-dialog modal-lg">
@@ -459,7 +474,7 @@
 				  Labor Pricing
 				</div>
 				<div class="col-md-6 text-right">
-				  <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal2">+</button>
+				  <button {% if data.create_new_vfd %}disabled{% endif %} type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal2">+</button>
 				  <!-- Modal -->
 				  <div class="modal fade" id="myModal2" role="dialog">
 					<div class="modal-dialog modal-lg">
@@ -594,6 +609,7 @@
 		  <input id="save_labor" name="save_labor" type="text" value="0" hidden/>
 		  <input id="save_monthly_hour" name="save_monthly_hour" type="text" value="0" hidden/>
 		  <input id="save_setpoints" name="save_setpoints" type="text" value="0" hidden/>
+		  <input id="create_vfd_flag" name="create_vfd_flag" type="text" value="0" hidden/>
 		  <input type="submit" value="Save" class="btn btn-default">
 		</form>
 
@@ -619,6 +635,10 @@
 	<script src="{% static "vfd_app/js/morris.min.js" %}"></script>
 	<script src="{% static "vfd_app/js/morris-data.js" %}"></script>
 	<script type="text/javascript">
+	  function create_vfd_app() {
+		element = document.getElementById('create_vfd_flag');
+		element.value = '1';
+	  }
 	  function setval() {
 		element = document.getElementById('save_text');
 		element.value = '1';

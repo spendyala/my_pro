@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import Http404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext, loader
@@ -7,7 +7,10 @@ from .models import (Client_Vfd_Motor,
 					 Materials_Client_VFD_Motor,
 					 Labor_Client_VFD_Motor,
 					 Client_Vfd_Motor_Setpoint_Selections)
+from main_app.models import Client, Vfd
 from django.core.urlresolvers import reverse
+
+import datetime
 
 import json
 
@@ -38,6 +41,25 @@ def detail(request, client_vfd_id, vfd_set_point):
 def search_form(request):
 	context = {'data': 'data'}
 	return render(request, 'vfd_app/search_form.html', context)
+
+
+def save_new_vfd(request):
+	client_vfd_obj = Client_Vfd_Motor()
+	client_vfd_obj.installed_date = datetime.datetime.now()
+	new_client_obj = Client.objects.get(id=request.POST['new_client_obj'])
+	new_vfd_obj = Vfd.objects.get(id=request.POST['new_vfd_obj'])
+	client_vfd_obj.client = new_client_obj
+	client_vfd_obj.vfd = new_vfd_obj
+	client_vfd_obj.vfd_name = request.POST['vfd_name']
+	client_vfd_obj.cost_per_kwh = float(request.POST['cost_per_kwh'])
+	client_vfd_obj.motor_horse_pwr = float(request.POST['motor_horse_pwr'])
+	client_vfd_obj.existing_motor_efficiency = float(request.POST[
+		'existing_motor_efficiency'])
+	client_vfd_obj.proposed_vfd_efficiency = float(request.POST[
+		'proposed_vfd_efficiency'])
+	client_vfd_obj.motor_load = float(request.POST['motor_load'])
+	client_vfd_obj.save()
+	return client_vfd_obj.id
 
 
 def save_data(request, client_vfd_id):
@@ -169,6 +191,23 @@ def save_labor(request, client_vfd_id):
 
 
 def report(request, client_vfd_id):
+
+	data = {}
+	data['create_new_vfd'] = False
+
+	if 'create_vfd_flag' in request.POST and request.POST['create_vfd_flag'] == '1':
+		vfd_id = save_new_vfd(request)
+		redirect_url = '/vfd_app/report/%s/' % (vfd_id,)
+		return redirect('/vfd_app/report/%s/' % (vfd_id,))
+
+	if client_vfd_id == 'add':
+		data['client_vfd_id'] = 'add'
+		data['new_client_objs'] = [(x.id, x.client_name) for x in Client.objects.all()]
+		data['new_vfd_objs'] = [(x.id, x.vfd_name) for x in Vfd.objects.all()]
+		data['create_new_vfd'] = True
+		context = {'data': data}
+		return render(request, 'vfd_app/report.html', context)
+
 	if 'save_text' in request.POST and request.POST['save_text'] == '1':
 		save_data(request, client_vfd_id)
 
@@ -186,8 +225,6 @@ def report(request, client_vfd_id):
 
 	total_proposed_vfd_kwh = 0
 	total_proposed_cost = 0
-	data = {}
-
 
 	client_vfd_obj = Client_Vfd_Motor.objects.get(id=client_vfd_id)
 
