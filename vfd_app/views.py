@@ -297,5 +297,8 @@ def report(request, client_vfd_id):
 	data['annual_kwh_savings'] = data['total_existing_kwh'] - data['total_proposed_vfd_kwh']
 	data['annual_cost_savings'] = data['total_existing_cost_of_operation'] - data['total_proposed_cost']
 
+        data['materials_data'] = installation_pricing_materials(client_vfd_id)
+        data['labor_data'] = installation_pricing_labor(client_vfd_id)
+        data['project_cost'] = data['materials_data']['total_material_miss_cost'] + data['labor_data']['total_labor_miss_cost']
 	context = {'data': data}
 	return render(request, 'vfd_app/report.html', context)
